@@ -1,6 +1,7 @@
 using Infrastructure.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Bogus;
 
 namespace Infrastructure.Data;
 
@@ -20,13 +21,27 @@ public class MeFitDbContext : DbContext
         
     }
 
+    public MeFitDbContext()
+    {
+        
+    }
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         configurationBuilder.Properties<DateOnly>()
             .HaveConversion<DateOnlyConverter>()
             .HaveColumnType("date");
     }
-    
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+
+        FakeData.Init(10);
+
+        
+
+    }
+
     /// <summary>
     /// Converts <see cref="DateOnly" /> to <see cref="DateTime"/> and vice versa.
     /// </summary>
