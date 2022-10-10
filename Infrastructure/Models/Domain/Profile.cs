@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Models.Domain;
 
 public class Profile
 {
     [Key]
-    public Guid ProfileId { get; set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int ProfileId { get; set; }
 
     public double Weight { get; set; }
     public double Height { get; set; }

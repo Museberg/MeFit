@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Models.Domain;
 
 public class Program
 {
-    [Key] 
-    public Guid ProgramId { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int ProgramId { get; set; }
 
     public string Name { get; set; }
     public string Category { get; set; }
