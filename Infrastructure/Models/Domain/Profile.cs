@@ -12,9 +12,9 @@ public class Profile
     public Guid KeycloakId { get; set; }
 
     [MaxLength(50)]
-    public string FirstName { get; set; }
+    public string? FirstName { get; set; }
     [MaxLength(50)]
-    public string LastName { get; set; }
+    public string? LastName { get; set; }
     public double Weight { get; set; }
     public double Height { get; set; }
     [MaxLength(100)]

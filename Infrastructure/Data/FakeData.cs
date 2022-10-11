@@ -88,6 +88,8 @@ public class FakeData
         var fakeProfiles = new Faker<Profile>()
             .StrictMode(false)
             .RuleFor(p => p.ProfileId, f => 0)
+            .RuleFor(p => p.FirstName, f => f.Name.FirstName())
+            .RuleFor(p => p.LastName, f => f.Name.LastName())
             .RuleFor(p => p.Disabilities, f => f.Lorem.Sentence())
             .RuleFor(p => p.MedicalConditions, f => f.Lorem.Sentence())
             .RuleFor(p => p.Goals, f => fakeGoals.Generate(f.Random.Number(9) + 1))
