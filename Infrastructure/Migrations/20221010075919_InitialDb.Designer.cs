@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MeFitDbContext))]
-    [Migration("20221005092304_InitialDB")]
-    partial class InitialDB
+    [Migration("20221010075919_InitialDb")]
+    partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,9 +26,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Address", b =>
                 {
-                    b.Property<Guid>("AddressId")
+                    b.Property<int>("AddressId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AddressId"), 1L, 1);
 
                     b.Property<string>("AddressLine1")
                         .IsRequired()
@@ -67,9 +69,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Exercise", b =>
                 {
-                    b.Property<Guid>("Key")
+                    b.Property<int>("ExerciseId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExerciseId"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -96,16 +100,18 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.HasKey("Key");
+                    b.HasKey("ExerciseId");
 
                     b.ToTable("Exercises");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Goal", b =>
                 {
-                    b.Property<Guid>("GoalId")
+                    b.Property<int>("GoalId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GoalId"), 1L, 1);
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("date");
@@ -113,8 +119,11 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsAchieved")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("ProfileId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("ProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProgramId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartingDate")
                         .HasColumnType("date");
@@ -123,14 +132,18 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ProfileId");
 
+                    b.HasIndex("ProgramId");
+
                     b.ToTable("Goals");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>
                 {
-                    b.Property<Guid>("ProfileId")
+                    b.Property<int>("ProfileId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"), 1L, 1);
 
                     b.Property<string>("Disabilities")
                         .IsRequired()
@@ -143,8 +156,8 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<double>("Weight")
                         .HasColumnType("float");
@@ -158,16 +171,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Program", b =>
                 {
-                    b.Property<Guid>("ProgramId")
+                    b.Property<int>("ProgramId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProgramId"), 1L, 1);
 
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("GoalId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -175,38 +187,40 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("ProgramId");
 
-                    b.HasIndex("GoalId");
-
                     b.ToTable("Programs");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Set", b =>
                 {
-                    b.Property<Guid>("SetId")
+                    b.Property<int>("SetId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("ExerciseKey")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SetId"), 1L, 1);
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ExerciseRepetitions")
                         .HasColumnType("int");
 
                     b.HasKey("SetId");
 
-                    b.HasIndex("ExerciseKey");
+                    b.HasIndex("ExerciseId");
 
                     b.ToTable("Sets");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.User", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("AddressId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -233,18 +247,20 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Workout", b =>
                 {
-                    b.Property<Guid>("WorkoutId")
+                    b.Property<int>("WorkoutId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkoutId"), 1L, 1);
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("ProgramId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("ProgramId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("SetId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("SetId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -265,6 +281,14 @@ namespace Infrastructure.Migrations
                     b.HasOne("Infrastructure.Models.Domain.Profile", null)
                         .WithMany("Goals")
                         .HasForeignKey("ProfileId");
+
+                    b.HasOne("Infrastructure.Models.Domain.Program", "Program")
+                        .WithMany()
+                        .HasForeignKey("ProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Program");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>
@@ -278,18 +302,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Domain.Program", b =>
-                {
-                    b.HasOne("Infrastructure.Models.Domain.Goal", null)
-                        .WithMany("Programs")
-                        .HasForeignKey("GoalId");
-                });
-
             modelBuilder.Entity("Infrastructure.Models.Domain.Set", b =>
                 {
                     b.HasOne("Infrastructure.Models.Domain.Exercise", "Exercise")
                         .WithMany()
-                        .HasForeignKey("ExerciseKey")
+                        .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -320,11 +337,6 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Set");
-                });
-
-            modelBuilder.Entity("Infrastructure.Models.Domain.Goal", b =>
-                {
-                    b.Navigation("Programs");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>
