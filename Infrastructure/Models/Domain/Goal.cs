@@ -16,5 +16,4 @@ public class Goal
     // Relations
     public Program Program { get; set; }
 
-
 }
