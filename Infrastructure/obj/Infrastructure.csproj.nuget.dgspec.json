@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/maus/Library/CloudStorage/OneDrive-Personal/ExperisAcademy/MeFit Case/MeFit/MeFit/Infrastructure/Infrastructure.csproj": {}
+    "C:\\Users\\nicol\\Documents\\Experis\\MeFit\\mefit\\Infrastructure\\Infrastructure.csproj": {}
   },
   "projects": {
-    "/Users/maus/Library/CloudStorage/OneDrive-Personal/ExperisAcademy/MeFit Case/MeFit/MeFit/Infrastructure/Infrastructure.csproj": {
+    "C:\\Users\\nicol\\Documents\\Experis\\MeFit\\mefit\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/maus/Library/CloudStorage/OneDrive-Personal/ExperisAcademy/MeFit Case/MeFit/MeFit/Infrastructure/Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\nicol\\Documents\\Experis\\MeFit\\mefit\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "/Users/maus/Library/CloudStorage/OneDrive-Personal/ExperisAcademy/MeFit Case/MeFit/MeFit/Infrastructure/Infrastructure.csproj",
-        "packagesPath": "/Users/maus/.nuget/packages/",
-        "outputPath": "/Users/maus/Library/CloudStorage/OneDrive-Personal/ExperisAcademy/MeFit Case/MeFit/MeFit/Infrastructure/obj/",
+        "projectPath": "C:\\Users\\nicol\\Documents\\Experis\\MeFit\\mefit\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\nicol\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nicol\\Documents\\Experis\\MeFit\\mefit\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/maus/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\nicol\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,6 +40,38 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
@@ -49,8 +83,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -62,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.401/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

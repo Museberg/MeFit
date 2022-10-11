@@ -14,5 +14,4 @@ public class Goal
     // Relations
     public IEnumerable<Program> Programs { get; set; }
 
-
 }
