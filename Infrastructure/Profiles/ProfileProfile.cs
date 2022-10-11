@@ -8,13 +8,9 @@ namespace Infrastructure.Profiles
     {
         public ProfileProfile()
         {
-            CreateMap<Profile, ProfileReadDTO>()
-                // Extracting Name of from assosiated user.
-                .ForMember(dest => dest.User, opt => opt
-                    .MapFrom(src => $"{src.User.FirstName} {src.User.LastName}".Single()));
+            CreateMap<Profile, ProfileReadDTO>();
             CreateMap<ProfileCreateDTO, Profile>();
             CreateMap<ProfileEditDTO, Profile>();
         }
     }
 }
-    

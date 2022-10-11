@@ -47,16 +47,7 @@ public class FakeData
             .RuleFor(a => a.PostalCode, f => f.Address.ZipCode())
             .RuleFor(a => a.City, f => f.Address.City())
             .RuleFor(a => a.Country, f => f.Address.Country());
-        
-        var fakeUsers = new Faker<User>()
-            .StrictMode(true)
-            .RuleFor(a => a.UserId, f => 0)
-            .RuleFor(u => u.FirstName, f => f.Name.FirstName())
-            .RuleFor(u => u.LastName, f => f.Name.LastName())
-            .RuleFor(u => u.IsAdmin, f => Random.Next(100) <= 20)
-            .RuleFor(u => u.IsContributer, f => Random.Next(100) <= 60)
-            .RuleFor(u => u.Address, f => fakeAddresses.Generate());
-        
+
         var fakeExercises = new Faker<Exercise>()
             .StrictMode(true)
             .RuleFor(e => e.ExerciseId, f => 0)
@@ -95,12 +86,11 @@ public class FakeData
             .RuleFor(g => g.Program, f => fakePrograms.Generate());
         
         var fakeProfiles = new Faker<Profile>()
-            .StrictMode(true)
+            .StrictMode(false)
             .RuleFor(p => p.ProfileId, f => 0)
             .RuleFor(p => p.Disabilities, f => f.Lorem.Sentence())
             .RuleFor(p => p.MedicalConditions, f => f.Lorem.Sentence())
             .RuleFor(p => p.Goals, f => fakeGoals.Generate(f.Random.Number(9) + 1))
-            .RuleFor(p => p.User, f => fakeUsers.Generate())
             .RuleFor(p => p.Height, f => f.Random.Double(0.1, 0.2) * 1000) // Height between 100-200 cm
             .RuleFor(p => p.Weight, f => f.Random.Double(0.05, 0.15) * 1000); // Weight between 50-150 kg
 

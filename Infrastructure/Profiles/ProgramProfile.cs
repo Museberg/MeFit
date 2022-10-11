@@ -1,6 +1,6 @@
-﻿using Infrastructure.DTOs.Program;
-using Profile = AutoMapper.Profile;
-using Program1 = Infrastructure.Models.Domain.Program;
+﻿using AutoMapper;
+using Infrastructure.DTOs.Program;
+
 
 namespace Infrastructure.Profiles
 {
@@ -8,12 +8,12 @@ namespace Infrastructure.Profiles
     {
         public ProgramProfile()
         {
-            CreateMap<Program1, ProgramReadDTO>()
+            CreateMap<Models.Domain.Program, ProgramReadDTO>()
                 // Extracting Name of from assosiated user.
                 .ForMember(dest => dest.Workouts, opt => opt
                     .MapFrom(src => src.Workouts.Select(m => m.Type).ToArray()));
-            CreateMap<ProgramCreateDTO, Program1>();
-            CreateMap<ProgramEditDTO, Program1>();
+            CreateMap<ProgramCreateDTO, Models.Domain.Program>();
+            CreateMap<ProgramEditDTO, Models.Domain.Program>();
         }
     }
 }

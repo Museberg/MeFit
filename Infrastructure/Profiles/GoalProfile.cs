@@ -9,9 +9,9 @@ namespace Infrastructure.Profiles
         public GoalProfile()
         {
             CreateMap<Goal, GoalReadDTO>()
-                // Extracting Name of from assosiated user.
-                .ForMember(dest => dest.Programs, opt => opt
-                    .MapFrom(src => src.Programs.Select(m => m.Name).ToArray()));
+                // Extracting Name of from associated user.
+                .ForMember(dest => dest.Program, opt => opt
+                    .MapFrom(src => src.Program));
             CreateMap<GoalCreateDTO, Goal>();
             CreateMap<GoalEditDTO, Goal>();
         }

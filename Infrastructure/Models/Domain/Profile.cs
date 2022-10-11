@@ -9,12 +9,19 @@ public class Profile
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ProfileId { get; set; }
 
+    public Guid KeycloakId { get; set; }
+
+    [MaxLength(50)]
+    public string FirstName { get; set; }
+    [MaxLength(50)]
+    public string LastName { get; set; }
     public double Weight { get; set; }
     public double Height { get; set; }
-    public string MedicalConditions { get; set; }
-    public string Disabilities { get; set; }
+    [MaxLength(100)]
+    public string? MedicalConditions { get; set; }
+    [MaxLength(100)]
+    public string? Disabilities { get; set; }
     
     // Relations
-    public User User { get; set; }
     public IEnumerable<Goal> Goals { get; set; }
 }

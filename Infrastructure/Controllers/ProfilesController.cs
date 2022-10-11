@@ -41,17 +41,16 @@ namespace Infrastructure.Controllers
         public async Task<ActionResult<ProfileCreateDTO>> PostProfile([FromBody] ProfileCreateDTO profileDTO)
         {
             Profile profile = _mapper.Map<Profile>(profileDTO);
-            profile.User = _context.Users.Find(new Guid("f9b439ac-8c61-4dbf-8a40-b877c1799721"));
 
             _context.Profiles.Add(profile);
 
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProfile", new { UserId = profile.User }, profile);
+            return CreatedAtAction("GetProfile", new { profile.ProfileId }, profile);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProfile(Guid id, ProfileEditDTO profileDTO)
+        public async Task<IActionResult> PutProfile(int id, ProfileEditDTO profileDTO)
         {
             Profile profile = _mapper.Map<Profile>(profileDTO);
             profile.ProfileId = id;
@@ -78,7 +77,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProfile(Guid id)
+        public async Task<IActionResult> DeleteProfile(int id)
         {
             if (GetIdentity().CurrentUserId() != id)
             {
@@ -98,7 +97,7 @@ namespace Infrastructure.Controllers
             return NoContent();
         }
 
-        private bool ProfileExists(Guid id)
+        private bool ProfileExists(int id)
         {
             return _context.Profiles.Any(e => e.ProfileId == id);
         }

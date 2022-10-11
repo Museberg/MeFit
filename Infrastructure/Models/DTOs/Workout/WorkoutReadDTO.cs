@@ -9,7 +9,7 @@ namespace Infrastructure.DTOs.Workout
         /// </summary>
         /// <example></example>
         [Key]
-        public Guid WorkoutId { get; set; }
+        public int WorkoutId { get; set; }
         /// <summary>
         /// Type of workout
         /// </summary>

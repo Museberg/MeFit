@@ -49,14 +49,14 @@ namespace Infrastructure.Controllers
             _context.Exercises.Add(exercise);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetExercise", new { id = exercise.Key }, exercise);
+            return CreatedAtAction("GetExercise", new { id = exercise.ExerciseId }, exercise);
         }
 
         [Authorize(Roles = "Contributor")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutExercise(Guid id, Exercise exercise)
+        public async Task<IActionResult> PutExercise(int id, Exercise exercise)
         {
-            if (id != exercise.Key)
+            if (id != exercise.ExerciseId)
             {
                 return BadRequest();
             }
@@ -98,9 +98,9 @@ namespace Infrastructure.Controllers
             return NoContent();
         }
 
-        private bool ExerciseExists(Guid id)
+        private bool ExerciseExists(int id)
         {
-            return _context.Exercises.Any(e => e.Key == id);
+            return _context.Exercises.Any(e => e.ExerciseId == id);
         }
     }
 }

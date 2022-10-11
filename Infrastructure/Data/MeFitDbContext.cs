@@ -13,7 +13,6 @@ public class MeFitDbContext : DbContext
     public DbSet<Profile> Profiles { get; set; }
     public DbSet<Models.Domain.Program> Programs { get; set; }
     public DbSet<Set> Sets { get; set; }
-    public DbSet<User> Users { get; set; }
     public DbSet<Workout> Workouts { get; set; }
 
     public MeFitDbContext(DbContextOptions options) : base(options)

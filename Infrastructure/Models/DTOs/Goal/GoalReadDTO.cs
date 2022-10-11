@@ -9,7 +9,7 @@ namespace Infrastructure.DTOs.Goal
         /// </summary>
         /// <exmaple></exmaple>
         [Key]
-        public Guid GoalId { get; set; }
+        public int GoalId { get; set; }
         /// <summary>
         /// Starting data of goal
         /// </summary>
@@ -25,10 +25,11 @@ namespace Infrastructure.DTOs.Goal
         /// </summary>
         /// <exmaple>true</exmaple>
         public bool IsAchieved { get; set; }
+
         /// <summary>
         /// List of program names
         /// </summary>
-        /// <exmaple>[Upper bodt training, Tap dancing class]</exmaple>
-        public IEnumerable<string> Programs { get; set; }
+        /// <exmaple>[Upper body training, Tap dancing class]</exmaple>
+        public Models.Domain.Program? Program;
     }
 }

@@ -49,7 +49,7 @@ namespace Infrastructure.Controllers
 
         [Authorize(Roles = "Contributor")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkout(Guid id, Workout workout)
+        public async Task<IActionResult> PutWorkout(int id, Workout workout)
         {
             if (id != workout.WorkoutId)
             {
@@ -93,7 +93,7 @@ namespace Infrastructure.Controllers
             return NoContent();
         }
 
-        private bool WorkoutExists(Guid id)
+        private bool WorkoutExists(int id)
         {
             return _context.Workouts.Any(e => e.WorkoutId == id);
         }

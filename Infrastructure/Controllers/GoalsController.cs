@@ -47,7 +47,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGoal(Guid id, Goal goal)
+        public async Task<IActionResult> PutGoal(int id, Goal goal)
         {
             if (id != goal.GoalId)
             {
@@ -90,7 +90,7 @@ namespace Infrastructure.Controllers
             return NoContent();
         }
 
-        private bool GoalExists(Guid id)
+        private bool GoalExists(int id)
         {
             return _context.Goals.Any(e => e.GoalId == id);
         }

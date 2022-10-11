@@ -9,7 +9,7 @@ namespace Infrastructure.DTOs.Program
         /// </summary>
         /// <example></example>
         [Key]
-        public Guid ProgramId { get; set; }
+        public int ProgramId { get; set; }
         /// <summary>
         /// Name of program.
         /// </summary>

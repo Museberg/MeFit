@@ -30,10 +30,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    Infrastructure/Program.cs
     app.UseDeveloperExceptionPage();
     app.SeedDatabase();
-    Infrastructure/Program.cs
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MeFit v1"));
 }
