@@ -3,10 +3,10 @@
     public class UserCreateDTO
     {
         /// <summary>
-        /// Primary key if user.
+        /// User key at Keycloak database.
         /// </summary>
         /// <example>6e5fb16a-cbb2-4c01-a223-7e4035a91757</example>
-        public Guid UserId { get; set; }
+        public Guid KeycloakId { get; set; }
         /// <summary>
         /// Firsname of user.
         /// </summary>
@@ -17,5 +17,6 @@
         /// </summary>
         /// <example>Larson</example>
         public string LastName { get; set; }
+        public string Email { get; set; }
     }
 }

@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
 using Infrastructure.Models.Domain;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Infrastructure.DTOs.Workout;
 
 namespace Infrastructure.Controllers
 {
@@ -17,14 +19,15 @@ namespace Infrastructure.Controllers
     public class WorkoutsController : ControllerBase
     {
         private readonly MeFitDbContext _context;
-
-        public WorkoutsController(MeFitDbContext context)
+        private readonly IMapper _mapper;
+        public WorkoutsController(MeFitDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Workout>> GetWorkout(Guid id)
+        public async Task<ActionResult<WorkoutReadDTO>> GetWorkout(int id)
         {
             var workout = await _context.Workouts.FindAsync(id);
 
@@ -33,33 +36,37 @@ namespace Infrastructure.Controllers
                 return NotFound();
             }
 
-            return workout;
+            return _mapper.Map<WorkoutReadDTO>(workout);
         }
 
         [Authorize(Roles = "Contributor")]
         [HttpPost]
-        public async Task<ActionResult<Workout>> PostWorkout(Workout workout)
+        public async Task<ActionResult<WorkoutCreateDTO>> PostWorkout(WorkoutCreateDTO workoutDTO)
         {
-            _context.Workouts.Add(workout);
-            await _context.SaveChangesAsync();
+            Workout workout = _mapper.Map<Workout>(workoutDTO);
 
-            return CreatedAtAction("GetWorkout", new { id = workout.WorkoutId }, workout);
+            try
+            {
+                _context.Workouts.Add(workout);
+                await _context.SaveChangesAsync();
+            } catch
+            {
+                return BadRequest();
+            }
+            
+            return CreatedAtAction("GetWorkout", new { id = workout.WorkoutId }, workoutDTO);
         }
 
 
         [Authorize(Roles = "Contributor")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkout(int id, Workout workout)
+        public async Task<IActionResult> PutWorkout(int id, WorkoutEditDTO workoutDTO)
         {
-            if (id != workout.WorkoutId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(workout).State = EntityState.Modified;
+            Workout workout = _mapper.Map<Workout>(workoutDTO);
 
             try
             {
+                _context.Entry(workout).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -79,16 +86,26 @@ namespace Infrastructure.Controllers
 
         [Authorize(Roles = "Contributor")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWorkout(Guid id)
+        public async Task<IActionResult> DeleteWorkout(int id)
         {
+            // !! Check if contributor has contributed to workout !!
+
             var workout = await _context.Workouts.FindAsync(id);
+
             if (workout == null)
             {
                 return NotFound();
             }
 
-            _context.Workouts.Remove(workout);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Workouts.Remove(workout);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
             return NoContent();
         }

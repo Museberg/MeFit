@@ -30,6 +30,8 @@ namespace Infrastructure.DTOs.Goal
         /// List of program names
         /// </summary>
         /// <exmaple>[Upper body training, Tap dancing class]</exmaple>
-        public Models.Domain.Program? Program;
+        public IEnumerable<Models.Domain.Program> Program { get; set; }
+        public Models.Domain.Profile Profile { get; set; }
+
     }
 }

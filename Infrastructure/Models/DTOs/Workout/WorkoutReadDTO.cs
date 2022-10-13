@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Infrastructure.Models.Domain;
 
 namespace Infrastructure.DTOs.Workout
 {
@@ -11,20 +12,12 @@ namespace Infrastructure.DTOs.Workout
         [Key]
         public int WorkoutId { get; set; }
         /// <summary>
-        /// Type of workout
-        /// </summary>
-        /// <example>Pull-ups</example>
-        [MaxLength(50)]
-        public string Type { get; set; }
-        /// <summary>
         /// Has the workout been completed?
         /// </summary>
         /// <example>false</example>
         public bool IsCompleted { get; set; }
-        /// <summary>
-        /// Number of sets of exercise.
-        /// </summary>
-        /// <example></example>
-        public int Set { get; set; }
+        public int ExerciseRepetitions { get; set; }
+        public Exercise Exercise { get; set; }
+        public Models.Domain.Program Program { get; set; }
     }
 }

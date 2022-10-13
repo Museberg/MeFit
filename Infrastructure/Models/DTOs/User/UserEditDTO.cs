@@ -12,5 +12,11 @@
         /// </summary>
         /// <example>Larson</example>
         public string LastName { get; set; }
+        /// <summary>
+        /// Prfofile associated with user
+        /// </summary>
+        /// <example></example>
+        public string Email { get; set; }
+        public Models.Domain.Profile Profile { get; set; }
     }
 }

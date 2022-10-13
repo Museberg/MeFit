@@ -2,18 +2,23 @@ using Infrastructure.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Bogus;
+using Infrastructure.Models.Domain.Exercises;
 
 namespace Infrastructure.Data;
 
 public class MeFitDbContext : DbContext
 {
-    public DbSet<Address> Addresses { get; set; }
-    public DbSet<Exercise> Exercises { get; set; }
     public DbSet<Goal> Goals { get; set; }
     public DbSet<Profile> Profiles { get; set; }
     public DbSet<Models.Domain.Program> Programs { get; set; }
-    public DbSet<Set> Sets { get; set; }
     public DbSet<Workout> Workouts { get; set; }
+    public DbSet<User> Users { get; set; }
+
+    // Exercises:
+    public DbSet<TimedExercise> TimedExercises { get; set; }
+    public DbSet<RepExercise> RepExercises { get; set; }
+    public DbSet<CardioExercise> CardioExercises { get; set; }
+
 
     public MeFitDbContext(DbContextOptions options) : base(options)
     {
@@ -34,10 +39,6 @@ public class MeFitDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-
-        FakeData.Init(10);
-
-        
 
     }
 

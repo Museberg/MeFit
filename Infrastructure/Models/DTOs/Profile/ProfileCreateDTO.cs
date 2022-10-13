@@ -1,14 +1,14 @@
-﻿namespace Infrastructure.DTOs.Profile
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Infrastructure.DTOs.Profile
 {
     public class ProfileCreateDTO
     {
         /// <summary>
         /// Primary key for user in Keycloak
         /// </summary>
-        public Guid KeycloakId { get; set; }
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        [Key]
+        public int ProfileId { get; set; }
         /// <summary>
         /// Weight of user in [kg]
         /// </summary>
@@ -29,5 +29,6 @@
         /// </summary>
         /// <example>Spinal cord injury</example>
         public string Disabilities { get; set; }
+        public Models.Domain.User User { get; set; }
     }
 }

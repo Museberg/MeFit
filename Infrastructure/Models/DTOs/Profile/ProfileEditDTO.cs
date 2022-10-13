@@ -25,5 +25,10 @@ namespace Infrastructure.DTOs.Profile
         /// </summary>
         /// <example>Spinal cord injury</example>
         public string Disabilities { get; set; }
+        /// <summary>
+        /// List of goals chosen by user.
+        /// </summary>
+        /// <example>[Power-ups, Curls]</example>
+        public IEnumerable<string> Goals { get; set; }
     }
 }

@@ -10,9 +10,11 @@ public class Workout
     public int WorkoutId { get; set; }
 
     [MaxLength(50)]
-    public string Type { get; set; }
     public bool IsCompleted { get; set; }
-    
+    public int ExerciseRepetitions { get; set; }
+
     // Relations
-    public Set Set { get; set; }
+    [Key, ForeignKey("ExerciseId")]
+    public Exercise Exercise { get; set; }
+    public Program Program { get; set; }
 }

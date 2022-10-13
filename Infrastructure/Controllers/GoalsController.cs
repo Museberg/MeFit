@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
 using Infrastructure.Models.Domain;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Infrastructure.DTOs.Goal;
 
 namespace Infrastructure.Controllers
 {
@@ -17,14 +19,16 @@ namespace Infrastructure.Controllers
     public class GoalsController : ControllerBase
     {
         private readonly MeFitDbContext _context;
+        private readonly IMapper _mapper;
 
-        public GoalsController(MeFitDbContext context)
+        public GoalsController(MeFitDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Goal>> GetGoal(Guid id)
+        public async Task<ActionResult<GoalReadDTO>> GetGoal(int id)
         {
             var goal = await _context.Goals.FindAsync(id);
 
@@ -33,31 +37,35 @@ namespace Infrastructure.Controllers
                 return NotFound();
             }
 
-            return goal;
+            return _mapper.Map<GoalReadDTO>(goal);
         }
-
 
         [HttpPost]
-        public async Task<ActionResult<Goal>> PostGoal(Goal goal)
+        public async Task<ActionResult<GoalCreateDTO>> PostGoal(GoalCreateDTO goalDTO)
         {
-            _context.Goals.Add(goal);
-            await _context.SaveChangesAsync();
+            Goal goal = _mapper.Map<Goal>(goalDTO);
 
-            return CreatedAtAction("GetGoal", new { id = goal.GoalId }, goal);
-        }
+            try
+            {
+                _context.Goals.Add(goal);
+                await _context.SaveChangesAsync();
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutGoal(int id, Goal goal)
-        {
-            if (id != goal.GoalId)
+            } catch
             {
                 return BadRequest();
             }
 
-            _context.Entry(goal).State = EntityState.Modified;
+            return CreatedAtAction("GetGoal", new { id = goal.GoalId }, goalDTO);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutGoal(int id, GoalEditDTO goalDTO)
+        {
+            Goal goal = _mapper.Map<Goal>(goalDTO);
 
             try
             {
+                _context.Entry(goal).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -76,16 +84,23 @@ namespace Infrastructure.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteGoal(Guid id)
+        public async Task<IActionResult> DeleteGoal(int id)
         {
             var goal = await _context.Goals.FindAsync(id);
+
             if (goal == null)
             {
                 return NotFound();
             }
 
-            _context.Goals.Remove(goal);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Goals.Remove(goal);
+                await _context.SaveChangesAsync();
+            } catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
             return NoContent();
         }

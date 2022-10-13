@@ -9,10 +9,7 @@ namespace Infrastructure.Profiles
     {
         public WorkoutProfile()
         {
-            CreateMap<Workout, WorkoutReadDTO>()
-                // Extracting Name of from assosiated user.
-                .ForMember(dest => dest.Set, opt => opt
-                    .MapFrom(src => src.Set.ExerciseRepetitions));
+            CreateMap<Workout, WorkoutReadDTO>();
             CreateMap<WorkoutCreateDTO, Workout>();
             CreateMap<WorkoutEditDTO, Workout>();
         }

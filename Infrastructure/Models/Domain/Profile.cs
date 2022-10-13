@@ -8,13 +8,6 @@ public class Profile
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ProfileId { get; set; }
-
-    public Guid KeycloakId { get; set; }
-
-    [MaxLength(50)]
-    public string? FirstName { get; set; }
-    [MaxLength(50)]
-    public string? LastName { get; set; }
     public double Weight { get; set; }
     public double Height { get; set; }
     [MaxLength(100)]
@@ -24,4 +17,5 @@ public class Profile
     
     // Relations
     public IEnumerable<Goal> Goals { get; set; }
+    public User User { get; set; }
 }

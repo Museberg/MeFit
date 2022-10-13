@@ -19,5 +19,6 @@ namespace Infrastructure.DTOs.Goal
         /// </summary>
         /// <exmaple>true</exmaple>
         public bool IsAchieved { get; set; }
+        public Models.Domain.Profile Profile { get; set; }
     }
 }

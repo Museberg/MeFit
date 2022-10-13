@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
-using Infrastructure.Models.Domain;
 using Profile = Infrastructure.Models.Domain.Profile;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
@@ -11,13 +10,14 @@ using Infrastructure.DTOs.Profile;
 
 namespace Infrastructure.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProfilesController : ControllerBase
     {
         private readonly MeFitDbContext _context;
         private readonly IMapper _mapper;
+
         public ProfilesController(MeFitDbContext context, IMapper mapper)
         {
             _context = context;
@@ -25,7 +25,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProfileReadDTO>> GetProfile(Guid id)
+        public async Task<ActionResult<ProfileReadDTO>> GetProfile(int id)
         {
             var profile = await _context.Profiles.FindAsync(id);
 
@@ -40,25 +40,36 @@ namespace Infrastructure.Controllers
         [HttpPost]
         public async Task<ActionResult<ProfileCreateDTO>> PostProfile([FromBody] ProfileCreateDTO profileDTO)
         {
+            // Creates profile variable from body.
             Profile profile = _mapper.Map<Profile>(profileDTO);
+            // Adds user to profile using token.
+            profile.User = await _context.Users.FindAsync(GetIdentity().CurrentUserId(_context));
 
-            _context.Profiles.Add(profile);
+            try
+            {
+                // Adds and saves profile in database.
+                _context.Profiles.Add(profile);
+                await _context.SaveChangesAsync();
+            } catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetProfile", new { profile.ProfileId }, profile);
+            return CreatedAtAction("GetProfile", new { profile.ProfileId }, profileDTO);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProfile(int id, ProfileEditDTO profileDTO)
         {
+            // Creates profile variable from body.
             Profile profile = _mapper.Map<Profile>(profileDTO);
+            // Adds "id" from http request. 
             profile.ProfileId = id;
-
-            _context.Entry(profile).State = EntityState.Modified;
 
             try
             {
+                // Updates profile and saves changes in database
+                _context.Entry(profile).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -79,20 +90,30 @@ namespace Infrastructure.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProfile(int id)
         {
-            if (GetIdentity().CurrentUserId() != id)
+            // Finds profile by ID from http request.
+            var profile = await _context.Profiles.FindAsync(id);
+
+            // Checks if token Id and user assosiated with profile matches.
+            if (GetIdentity().CurrentKeyCloakId() != profile.User.KeycloakId)
             {
                 return Forbid();
             }
 
-            var profile = await _context.Profiles.FindAsync(id);
-
+            // Checks if profile was found
             if (profile == null)
             {
                 return NotFound();
             }
 
-            _context.Profiles.Remove(profile);
-            await _context.SaveChangesAsync();
+            try
+            {
+                // Removes profile and saves database.
+                _context.Profiles.Remove(profile);
+                await _context.SaveChangesAsync();
+            } catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
             return NoContent();
         }
@@ -101,9 +122,10 @@ namespace Infrastructure.Controllers
         {
             return _context.Profiles.Any(e => e.ProfileId == id);
         }
-        private ClaimsIdentity GetIdentity()
+        private IEnumerable<Claim> GetIdentity()
         {
-            return HttpContext.User.Identity as ClaimsIdentity;
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            return identity.Claims;
         }
     }
 }

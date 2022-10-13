@@ -8,10 +8,7 @@ namespace Infrastructure.Profiles
     {
         public ProgramProfile()
         {
-            CreateMap<Models.Domain.Program, ProgramReadDTO>()
-                // Extracting Name of from assosiated user.
-                .ForMember(dest => dest.Workouts, opt => opt
-                    .MapFrom(src => src.Workouts.Select(m => m.Type).ToArray()));
+            CreateMap<Models.Domain.Program, ProgramReadDTO>();
             CreateMap<ProgramCreateDTO, Models.Domain.Program>();
             CreateMap<ProgramEditDTO, Models.Domain.Program>();
         }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Models.Domain;
 
-public class Exercise
+public abstract class Exercise
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -13,10 +13,10 @@ public class Exercise
     public string Name { get; set; }
     [MaxLength(2048)]
     public string Description { get; set; }
-    [MaxLength(100)]
-    public string TargetMuscleGroup { get; set; }
-    [MaxLength(512)]
+    public MuscleEnum MuscleGroups { get; set; }
+    [Url]
     public string ImageLink { get; set; }
-    [MaxLength(512)]
+    [Url]
     public string VideoLink { get; set; }
+    public Workout Workout { get; set; }
 }

@@ -9,7 +9,7 @@ public class DbInitializer
         const int profilesToFake = 100;
         context.Database.EnsureCreated();
 
-        if (context.Profiles.Count() < profilesToFake)
+        if (context.Profiles.Count() < profilesToFake && false)
         {
             FakeData.Init(profilesToFake);
             context.Profiles.AddRange(FakeData.Profiles);
