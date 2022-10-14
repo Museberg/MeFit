@@ -5,29 +5,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class InitialDB : Migration
+    public partial class InitialDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Exercise",
+                name: "Exercises",
                 columns: table => new
                 {
                     ExerciseId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false),
-                    MuscleGroups = table.Column<int>(type: "int", nullable: false),
+                    MuscleGroups = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VideoLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DistanceInKm = table.Column<double>(type: "float", nullable: true),
-                    Repetitions = table.Column<int>(type: "int", nullable: true),
-                    Seconds = table.Column<double>(type: "float", nullable: true)
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    DistanceInKm = table.Column<double>(type: "float", nullable: false),
+                    Repetitions = table.Column<int>(type: "int", nullable: false),
+                    Seconds = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exercise", x => x.ExerciseId);
+                    table.PrimaryKey("PK_Exercises", x => x.ExerciseId);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,16 +89,14 @@ namespace Infrastructure.Migrations
                 {
                     WorkoutId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IsCompleted = table.Column<bool>(type: "bit", maxLength: 50, nullable: false),
-                    ExerciseRepetitions = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    ContributorUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Workouts", x => x.WorkoutId);
                     table.ForeignKey(
-                        name: "FK_Workouts_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Workouts_Users_ContributorUserId",
+                        column: x => x.ContributorUserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -113,8 +111,8 @@ namespace Infrastructure.Migrations
                     StartingDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
                     IsAchieved = table.Column<bool>(type: "bit", nullable: false),
-                    ProfileId = table.Column<int>(type: "int", nullable: false),
-                    ProgramId = table.Column<int>(type: "int", nullable: false)
+                    ProgramId = table.Column<int>(type: "int", nullable: false),
+                    ProfileId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -134,6 +132,30 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CompletedWorkouts",
+                columns: table => new
+                {
+                    CompletedWorkoutId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProfileId = table.Column<int>(type: "int", nullable: false),
+                    WorkoutId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompletedWorkouts", x => x.CompletedWorkoutId);
+                    table.ForeignKey(
+                        name: "FK_CompletedWorkouts_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
+                        principalColumn: "ProfileId");
+                    table.ForeignKey(
+                        name: "FK_CompletedWorkouts_Workouts_WorkoutId",
+                        column: x => x.WorkoutId,
+                        principalTable: "Workouts",
+                        principalColumn: "WorkoutId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ExerciseWorkout",
                 columns: table => new
                 {
@@ -144,9 +166,9 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ExerciseWorkout", x => new { x.ExercisesExerciseId, x.WorkoutsWorkoutId });
                     table.ForeignKey(
-                        name: "FK_ExerciseWorkout_Exercise_ExercisesExerciseId",
+                        name: "FK_ExerciseWorkout_Exercises_ExercisesExerciseId",
                         column: x => x.ExercisesExerciseId,
-                        principalTable: "Exercise",
+                        principalTable: "Exercises",
                         principalColumn: "ExerciseId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -182,6 +204,16 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CompletedWorkouts_ProfileId",
+                table: "CompletedWorkouts",
+                column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CompletedWorkouts_WorkoutId",
+                table: "CompletedWorkouts",
+                column: "WorkoutId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ExerciseWorkout_WorkoutsWorkoutId",
                 table: "ExerciseWorkout",
                 column: "WorkoutsWorkoutId");
@@ -209,14 +241,16 @@ namespace Infrastructure.Migrations
                 column: "WorkoutsWorkoutId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Workouts_UserId",
+                name: "IX_Workouts_ContributorUserId",
                 table: "Workouts",
-                column: "UserId",
-                unique: true);
+                column: "ContributorUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CompletedWorkouts");
+
             migrationBuilder.DropTable(
                 name: "ExerciseWorkout");
 
@@ -227,7 +261,7 @@ namespace Infrastructure.Migrations
                 name: "ProgramWorkout");
 
             migrationBuilder.DropTable(
-                name: "Exercise");
+                name: "Exercises");
 
             migrationBuilder.DropTable(
                 name: "Profiles");
