@@ -10,6 +10,7 @@ public class FakeData
     private static int Seed = 8675309;
     
     public static List<Profile> Profiles = new();
+    public static List<User> Users = new();
 
     public static void Init(int count)
     {
@@ -145,13 +146,14 @@ public class FakeData
             .RuleFor(u => u.FirstName, f => f.Name.FirstName())
             .RuleFor(u => u.LastName, f => f.Name.LastName())
             .RuleFor(u => u.Email, f => f.Person.Email);
-        
+
+        Users = fakeUsers.Generate(count);
         
         var fakeWorkouts = new Faker<Workout>()
             .StrictMode(false)
             .RuleFor(w => w.WorkoutId, f => 0)
             .RuleFor(w => w.Exercises, f => f.PickRandom(mixedExercises, 5).ToList())
-            .RuleFor(w => w.Contributor, f => fakeUsers.Generate());
+            .RuleFor(w => w.Contributor, f => f.PickRandom(Users));
         
 
         var fakePrograms = new Faker<Models.Domain.Program>()
@@ -172,7 +174,7 @@ public class FakeData
         var fakeProfiles = new Faker<Profile>()
             .StrictMode(true)
             .RuleFor(p => p.ProfileId, f => 0)
-            .RuleFor(p => p.User, f => fakeUsers.Generate())
+            .RuleFor(p => p.User, f => f.PickRandom(Users))
             .RuleFor(p => p.Disabilities, f => f.Lorem.Sentence())
             .RuleFor(p => p.MedicalConditions, f => f.Lorem.Sentence())
             .RuleFor(p => p.Goals, f => fakeGoals.Generate(f.Random.Number(9) + 1))
