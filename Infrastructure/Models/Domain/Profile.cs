@@ -18,4 +18,5 @@ public class Profile
     // Relations
     public IEnumerable<Goal> Goals { get; set; }
     public User User { get; set; }
+    public int UserId { get; set; }
 }

@@ -14,6 +14,8 @@ public class Goal
     public bool IsAchieved { get; set; }
     
     // Relations
-    public IEnumerable<Program> Programs { get; set; }
+    public Program Program { get; set; }
     public Profile Profile { get; set; }
+    public int ProfileId { get; set; }
+    public int ProgramId { get; set; }
 }

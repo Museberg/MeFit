@@ -15,7 +15,7 @@ namespace Infrastructure.Models.Domain
         public string FirstName { get; set; }
         [MaxLength(50)]
         public string LastName { get; set; }
-        [Key, ForeignKey("ProfileId")]
         public Profile Profile { get; set; }
+        public Workout Contributed { get; set; }
     }
 }

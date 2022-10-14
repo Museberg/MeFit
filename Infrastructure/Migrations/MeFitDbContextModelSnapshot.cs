@@ -22,6 +22,21 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("ExerciseWorkout", b =>
+                {
+                    b.Property<int>("ExercisesExerciseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkoutsWorkoutId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ExercisesExerciseId", "WorkoutsWorkoutId");
+
+                    b.HasIndex("WorkoutsWorkoutId");
+
+                    b.ToTable("ExerciseWorkout");
+                });
+
             modelBuilder.Entity("Infrastructure.Models.Domain.Exercise", b =>
                 {
                     b.Property<int>("ExerciseId")
@@ -79,12 +94,18 @@ namespace Infrastructure.Migrations
                     b.Property<int>("ProfileId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProgramId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartingDate")
                         .HasColumnType("date");
 
                     b.HasKey("GoalId");
 
                     b.HasIndex("ProfileId");
+
+                    b.HasIndex("ProgramId")
+                        .IsUnique();
 
                     b.ToTable("Goals");
                 });
@@ -108,10 +129,16 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<double>("Weight")
                         .HasColumnType("float");
 
                     b.HasKey("ProfileId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Profiles");
                 });
@@ -128,16 +155,11 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GoalId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProgramId");
-
-                    b.HasIndex("GoalId");
 
                     b.ToTable("Programs");
                 });
@@ -167,13 +189,7 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId");
-
-                    b.HasIndex("ProfileId")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -186,9 +202,6 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkoutId"), 1L, 1);
 
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ExerciseRepetitions")
                         .HasColumnType("int");
 
@@ -196,17 +209,30 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("bit");
 
-                    b.Property<int>("ProgramId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("WorkoutId");
 
-                    b.HasIndex("ExerciseId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.HasIndex("ProgramId");
-
                     b.ToTable("Workouts");
+                });
+
+            modelBuilder.Entity("ProgramWorkout", b =>
+                {
+                    b.Property<int>("ProgramsProgramId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkoutsWorkoutId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProgramsProgramId", "WorkoutsWorkoutId");
+
+                    b.HasIndex("WorkoutsWorkoutId");
+
+                    b.ToTable("ProgramWorkout");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Exercises.CardioExercise", b =>
@@ -239,6 +265,21 @@ namespace Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("TimedExercise");
                 });
 
+            modelBuilder.Entity("ExerciseWorkout", b =>
+                {
+                    b.HasOne("Infrastructure.Models.Domain.Exercise", null)
+                        .WithMany()
+                        .HasForeignKey("ExercisesExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Infrastructure.Models.Domain.Workout", null)
+                        .WithMany()
+                        .HasForeignKey("WorkoutsWorkoutId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Infrastructure.Models.Domain.Goal", b =>
                 {
                     b.HasOne("Infrastructure.Models.Domain.Profile", "Profile")
@@ -247,72 +288,72 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Profile");
-                });
-
-            modelBuilder.Entity("Infrastructure.Models.Domain.Program", b =>
-                {
-                    b.HasOne("Infrastructure.Models.Domain.Goal", "Goal")
-                        .WithMany("Programs")
-                        .HasForeignKey("GoalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Goal");
-                });
-
-            modelBuilder.Entity("Infrastructure.Models.Domain.User", b =>
-                {
-                    b.HasOne("Infrastructure.Models.Domain.Profile", "Profile")
-                        .WithOne("User")
-                        .HasForeignKey("Infrastructure.Models.Domain.User", "ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Profile");
-                });
-
-            modelBuilder.Entity("Infrastructure.Models.Domain.Workout", b =>
-                {
-                    b.HasOne("Infrastructure.Models.Domain.Exercise", "Exercise")
-                        .WithOne("Workout")
-                        .HasForeignKey("Infrastructure.Models.Domain.Workout", "ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Infrastructure.Models.Domain.Program", "Program")
-                        .WithMany("Workouts")
-                        .HasForeignKey("ProgramId")
+                        .WithOne("Goal")
+                        .HasForeignKey("Infrastructure.Models.Domain.Goal", "ProgramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Exercise");
+                    b.Navigation("Profile");
 
                     b.Navigation("Program");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Domain.Exercise", b =>
+            modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>
                 {
-                    b.Navigation("Workout")
+                    b.HasOne("Infrastructure.Models.Domain.User", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("Infrastructure.Models.Domain.Profile", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Domain.Goal", b =>
+            modelBuilder.Entity("Infrastructure.Models.Domain.Workout", b =>
                 {
-                    b.Navigation("Programs");
+                    b.HasOne("Infrastructure.Models.Domain.User", "Contributor")
+                        .WithOne("Contributed")
+                        .HasForeignKey("Infrastructure.Models.Domain.Workout", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contributor");
+                });
+
+            modelBuilder.Entity("ProgramWorkout", b =>
+                {
+                    b.HasOne("Infrastructure.Models.Domain.Program", null)
+                        .WithMany()
+                        .HasForeignKey("ProgramsProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Infrastructure.Models.Domain.Workout", null)
+                        .WithMany()
+                        .HasForeignKey("WorkoutsWorkoutId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>
                 {
                     b.Navigation("Goals");
-
-                    b.Navigation("User")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Program", b =>
                 {
-                    b.Navigation("Workouts");
+                    b.Navigation("Goal")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Infrastructure.Models.Domain.User", b =>
+                {
+                    b.Navigation("Contributed")
+                        .IsRequired();
+
+                    b.Navigation("Profile")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

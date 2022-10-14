@@ -23,12 +23,13 @@ namespace Infrastructure.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser()
+        public async Task<ActionResult> PostUser()
         {
             if (GetIdentity().UserExists(_context))
             {
                 return NoContent();
             }
+
             UserCreateDTO userDTO = GetIdentity().CreateUser();
             User user = _mapper.Map<User>(userDTO);
 
@@ -41,14 +42,14 @@ namespace Infrastructure.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return CreatedAtAction("GetProfile", new { user.UserId }, userDTO);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteProfile()
         {
 
-            User? user = _context.Users.Find(GetIdentity().CurrentUserId);
+            User? user = GetIdentity().CurrentUser(_context);
 
             if (user == null)
             {

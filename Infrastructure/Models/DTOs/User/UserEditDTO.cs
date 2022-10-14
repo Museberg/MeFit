@@ -18,5 +18,6 @@
         /// <example></example>
         public string Email { get; set; }
         public Models.Domain.Profile Profile { get; set; }
+        public Models.Domain.Workout Contributed { get; set; }
     }
 }

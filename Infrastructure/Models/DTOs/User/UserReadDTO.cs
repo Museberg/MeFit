@@ -28,5 +28,6 @@
         /// </summary>
         /// <example></example>
         public Models.Domain.Profile Profile { get; set; }
+        public Models.Domain.Workout Contributed { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Infrastructure.Models.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace Infrastructure.Models.DTOs.Exercises.ExerciseEditDTO
 {
@@ -25,7 +26,7 @@ namespace Infrastructure.Models.DTOs.Exercises.ExerciseEditDTO
         /// </summary>
         /// <example>Biceps and upper back</example>
         [MaxLength(100)]
-        public string MuscleGroup { get; set; }
+        public MuscleEnum MuscleGroup { get; set; }
         /// <summary>
         /// Link to exercise image.
         /// </summary>

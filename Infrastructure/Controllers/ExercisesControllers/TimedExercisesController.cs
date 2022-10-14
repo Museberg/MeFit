@@ -16,7 +16,7 @@ using Infrastructure.Models.DTOs.Exercises.ExerciseEditDTO;
 namespace Infrastructure.Controllers.TimedExercisesControllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/Exercises/[controller]")]
     [ApiController]
     public class TimedExercisesController : ControllerBase
     {

@@ -99,4 +99,9 @@ void SetupKeycloak()
             ValidAudience = "account",
         };
     });
+
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("Contributor", policy => policy.RequireClaim("roles", "[Contributor]"));
+    });
 }

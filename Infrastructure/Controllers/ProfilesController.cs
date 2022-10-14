@@ -43,7 +43,7 @@ namespace Infrastructure.Controllers
             // Creates profile variable from body.
             Profile profile = _mapper.Map<Profile>(profileDTO);
             // Adds user to profile using token.
-            profile.User = await _context.Users.FindAsync(GetIdentity().CurrentUserId(_context));
+            profile.UserId = GetIdentity().CurrentUserId(_context);
 
             try
             {
@@ -55,7 +55,7 @@ namespace Infrastructure.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return CreatedAtAction("GetProfile", new { profile.ProfileId }, profileDTO);
+            return CreatedAtAction("GetProfile", new { id = profile.ProfileId }, profileDTO);
         }
 
         [HttpPut("{id}")]
@@ -91,18 +91,18 @@ namespace Infrastructure.Controllers
         public async Task<IActionResult> DeleteProfile(int id)
         {
             // Finds profile by ID from http request.
-            var profile = await _context.Profiles.FindAsync(id);
-
-            // Checks if token Id and user assosiated with profile matches.
-            if (GetIdentity().CurrentKeyCloakId() != profile.User.KeycloakId)
-            {
-                return Forbid();
-            }
+            var profile = await _context.Profiles.Include(s => s.User).FirstOrDefaultAsync(m => m.ProfileId == id);
 
             // Checks if profile was found
             if (profile == null)
             {
                 return NotFound();
+            }
+
+            // Checks if token Id and user assosiated with profile matches.
+            if (GetIdentity().CurrentKeyCloakId() != profile.User.KeycloakId)
+            {
+                return Forbid();
             }
 
             try

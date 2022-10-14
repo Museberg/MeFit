@@ -18,5 +18,5 @@ public abstract class Exercise
     public string ImageLink { get; set; }
     [Url]
     public string VideoLink { get; set; }
-    public Workout Workout { get; set; }
+    public IEnumerable<Workout> Workouts { get; set; }
 }

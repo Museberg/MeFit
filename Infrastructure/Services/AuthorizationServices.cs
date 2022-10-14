@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Data;
 using System.Security.Claims;
 using Infrastructure.DTOs.User;
+using Infrastructure.Models.Domain;
 
 namespace Infrastructure.Services
 {
@@ -12,7 +13,8 @@ namespace Infrastructure.Services
             {
                 KeycloakId = new Guid(userClaims.First(s => s.Type == ClaimTypes.NameIdentifier).Value),
                 FirstName = userClaims.First(s => s.Type == ClaimTypes.GivenName).Value,
-                LastName = userClaims.First(s => s.Type == ClaimTypes.Surname).Value
+                LastName = userClaims.First(s => s.Type == ClaimTypes.Surname).Value,
+                Email = userClaims.First(s => s.Type == ClaimTypes.Email).Value
             };
         }
 
@@ -41,6 +43,12 @@ namespace Infrastructure.Services
         {
             Guid keyCloakId = userClaims.CurrentKeyCloakId();
             return _context.Users.Any(s => s.KeycloakId == keyCloakId);
+        }
+
+        public static User? CurrentUser(this IEnumerable<Claim> userClaims, MeFitDbContext _context)
+        {
+            Guid keyCloakId = userClaims.CurrentKeyCloakId();
+            return _context.Users.Where(s => s.KeycloakId == keyCloakId).FirstOrDefault();
         }
     }
 }

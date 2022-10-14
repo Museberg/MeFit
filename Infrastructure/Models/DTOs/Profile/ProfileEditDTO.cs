@@ -19,12 +19,12 @@ namespace Infrastructure.DTOs.Profile
         /// Medical conditions that user is experiencing
         /// </summary>
         /// <example>Pulled muscle</example>
-        public string MedicalConditions { get; set; }
+        public string? MedicalConditions { get; set; }
         /// <summary>
         /// Disabilities assositated with user
         /// </summary>
         /// <example>Spinal cord injury</example>
-        public string Disabilities { get; set; }
+        public string? Disabilities { get; set; }
         /// <summary>
         /// List of goals chosen by user.
         /// </summary>

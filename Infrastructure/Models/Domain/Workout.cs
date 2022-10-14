@@ -14,7 +14,8 @@ public class Workout
     public int ExerciseRepetitions { get; set; }
 
     // Relations
-    [Key, ForeignKey("ExerciseId")]
-    public Exercise Exercise { get; set; }
-    public Program Program { get; set; }
+    public IEnumerable<Exercise> Exercises { get; set; }
+    public IEnumerable<Program> Programs { get; set; }
+    public User Contributor { get; set; }
+    public int UserId { get; set; }
 }
