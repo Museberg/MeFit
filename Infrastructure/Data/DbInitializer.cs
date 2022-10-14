@@ -6,10 +6,10 @@ public class DbInitializer
 {
     public static void Initialize(MeFitDbContext context)
     {
-        const int profilesToFake = 1;
+        const int profilesToFake = 100;
         context.Database.EnsureCreated();
 
-        if (context.Profiles.Count() < profilesToFake && false)
+        if (context.Profiles.Count() < profilesToFake)
         {
             FakeData.Init(profilesToFake);
             context.Profiles.AddRange(FakeData.Profiles);

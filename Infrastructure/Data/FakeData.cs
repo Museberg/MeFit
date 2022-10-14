@@ -138,11 +138,21 @@ public class FakeData
         mixedExercises.AddRange(fakeRepExercises.Generate(50));
         mixedExercises.AddRange(fakeTimedExercises.Generate(10));
 
+        var fakeUsers = new Faker<User>()
+            .StrictMode(false)
+            .RuleFor(u => u.KeycloakId, f => Guid.Empty)
+            .RuleFor(u => u.UserId, f => 0)
+            .RuleFor(u => u.FirstName, f => f.Name.FirstName())
+            .RuleFor(u => u.LastName, f => f.Name.LastName())
+            .RuleFor(u => u.Email, f => f.Person.Email);
+        
+        
         var fakeWorkouts = new Faker<Workout>()
             .StrictMode(false)
             .RuleFor(w => w.WorkoutId, f => 0)
             .RuleFor(w => w.Exercises, f => f.PickRandom(mixedExercises, 5).ToList())
-            .RuleFor(w => w.Contributor, f => null);
+            .RuleFor(w => w.Contributor, f => fakeUsers.Generate());
+        
 
         var fakePrograms = new Faker<Models.Domain.Program>()
             .StrictMode(false)
@@ -159,17 +169,8 @@ public class FakeData
             .RuleFor(g => g.IsAchieved, f => Random.Next(100) <= 60)
             .RuleFor(g => g.Program, f => fakePrograms.Generate());
 
-        var fakeUsers = new Faker<User>()
-            .StrictMode(false)
-            .RuleFor(u => u.KeycloakId, f => Guid.Empty)
-            .RuleFor(u => u.UserId, f => 0)
-            .RuleFor(u => u.FirstName, f => f.Name.FirstName())
-            .RuleFor(u => u.LastName, f => f.Name.LastName())
-            .RuleFor(u => u.Email, f => f.Person.Email)
-            .RuleFor(u => u.Contributed, f => fakeWorkouts.Generate(10));
-
         var fakeProfiles = new Faker<Profile>()
-            .StrictMode(false)
+            .StrictMode(true)
             .RuleFor(p => p.ProfileId, f => 0)
             .RuleFor(p => p.User, f => fakeUsers.Generate())
             .RuleFor(p => p.Disabilities, f => f.Lorem.Sentence())
