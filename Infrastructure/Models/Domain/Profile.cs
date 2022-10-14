@@ -16,7 +16,7 @@ public class Profile
     public string? Disabilities { get; set; }
     
     // Relations
-    public IEnumerable<Goal> Goals { get; set; }
+    public ICollection<Goal> Goals { get; set; }
     [Key, ForeignKey("UserId")]
     public User User { get; set; }
 }
