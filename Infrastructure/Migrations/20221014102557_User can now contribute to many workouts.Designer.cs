@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MeFitDbContext))]
-    partial class MeFitDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221014102557_User can now contribute to many workouts")]
+    partial class Usercannowcontributetomanyworkouts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,29 +37,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("WorkoutsWorkoutId");
 
                     b.ToTable("ExerciseWorkout");
-                });
-
-            modelBuilder.Entity("Infrastructure.Models.Domain.CompletedWorkout", b =>
-                {
-                    b.Property<int>("CompletedWorkoutId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompletedWorkoutId"), 1L, 1);
-
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WorkoutId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CompletedWorkoutId");
-
-                    b.HasIndex("ProfileId");
-
-                    b.HasIndex("WorkoutId");
-
-                    b.ToTable("CompletedWorkouts");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Exercise", b =>
@@ -232,12 +211,19 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkoutId"), 1L, 1);
 
-                    b.Property<int>("ContributorUserId")
+                    b.Property<int>("ExerciseRepetitions")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasMaxLength(50)
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("WorkoutId");
 
-                    b.HasIndex("ContributorUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Workouts");
                 });
@@ -270,25 +256,6 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("WorkoutsWorkoutId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Infrastructure.Models.Domain.CompletedWorkout", b =>
-                {
-                    b.HasOne("Infrastructure.Models.Domain.Profile", "Profile")
-                        .WithMany()
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Infrastructure.Models.Domain.Workout", "Workout")
-                        .WithMany()
-                        .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Profile");
-
-                    b.Navigation("Workout");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Goal", b =>
@@ -325,7 +292,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Infrastructure.Models.Domain.User", "Contributor")
                         .WithMany("Contributed")
-                        .HasForeignKey("ContributorUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

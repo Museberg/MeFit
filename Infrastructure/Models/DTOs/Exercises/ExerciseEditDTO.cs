@@ -1,9 +1,10 @@
 ﻿using Infrastructure.Models.Domain;
 using System.ComponentModel.DataAnnotations;
+using Infrastructure.Models.Domain.Exercises;
 
-namespace Infrastructure.Models.DTOs.Exercises.ExerciseCreateDTO
+namespace Infrastructure.Models.DTOs.Exercises.ExerciseEditDTO
 {
-    public abstract class ExerciseCreateDTO
+    public class ExerciseEditDTO
     {
         /// <summary>
         /// Name of exercise.
@@ -25,6 +26,7 @@ namespace Infrastructure.Models.DTOs.Exercises.ExerciseCreateDTO
         /// The target muscle group of the exercise.
         /// </summary>
         /// <example>Biceps and upper back</example>
+        [MaxLength(100)]
         public MuscleEnum MuscleGroup { get; set; }
         /// <summary>
         /// Link to exercise image.
@@ -38,5 +40,11 @@ namespace Infrastructure.Models.DTOs.Exercises.ExerciseCreateDTO
         /// <example>Insert Url</example>
         [Url]
         public string VideoLink { get; set; }
+        
+        // Different exercise types
+        public ExerciseTypeEnum Type { get; set; }
+        public double DistanceInKm { get; set; } // Used for cardio exercises
+        public int Repetitions { get; set; } // Used for muscle workouts
+        public double Seconds { get; set; } // Used for timed exercises, think planking and such
     }
 }

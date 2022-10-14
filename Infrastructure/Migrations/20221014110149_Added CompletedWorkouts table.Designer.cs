@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MeFitDbContext))]
-    partial class MeFitDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221014110149_Added CompletedWorkouts table")]
+    partial class AddedCompletedWorkoutstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,6 +236,13 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("ContributorUserId")
                         .HasColumnType("int");
+
+                    b.Property<int>("ExerciseRepetitions")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasMaxLength(50)
+                        .HasColumnType("bit");
 
                     b.HasKey("WorkoutId");
 

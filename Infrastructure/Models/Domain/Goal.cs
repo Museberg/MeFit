@@ -14,8 +14,8 @@ public class Goal
     public bool IsAchieved { get; set; }
     
     // Relations
+    [Key, ForeignKey("ProgramId")]
     public Program Program { get; set; }
+    [Key, ForeignKey("ProfileId")]
     public Profile Profile { get; set; }
-    public int ProfileId { get; set; }
-    public int ProgramId { get; set; }
 }

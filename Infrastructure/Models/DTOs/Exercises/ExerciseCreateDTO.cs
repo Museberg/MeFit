@@ -1,16 +1,11 @@
 ﻿using Infrastructure.Models.Domain;
 using System.ComponentModel.DataAnnotations;
+using Infrastructure.Models.Domain.Exercises;
 
-namespace Infrastructure.Models.DTOs.Exercises.ExerciseReadDTO
+namespace Infrastructure.Models.DTOs.Exercises.ExerciseCreateDTO
 {
-    public class ExerciseReadDTO
+    public abstract class ExerciseCreateDTO
     {
-        /// <summary>
-        /// The primary key of exercise.
-        /// </summary>
-        /// <example>2</example>
-        [Key]
-        public int ExerciseId { get; set; }
         /// <summary>
         /// Name of exercise.
         /// </summary>
@@ -31,8 +26,7 @@ namespace Infrastructure.Models.DTOs.Exercises.ExerciseReadDTO
         /// The target muscle group of the exercise.
         /// </summary>
         /// <example>Biceps and upper back</example>
-        [MaxLength(100)]
-        public MuscleEnum MuscleGroup { get; set; }
+        public IEnumerable<MuscleEnum> MuscleGroup { get; set; }
         /// <summary>
         /// Link to exercise image.
         /// </summary>
@@ -45,5 +39,13 @@ namespace Infrastructure.Models.DTOs.Exercises.ExerciseReadDTO
         /// <example>Insert Url</example>
         [Url]
         public string VideoLink { get; set; }
+        
+        // Different exercise types
+        public ExerciseTypeEnum Type { get; set; }
+        public double DistanceInKm { get; set; } // Used for cardio exercises
+        public int Repetitions { get; set; } // Used for muscle workouts
+        public double Seconds { get; set; } // Used for timed exercises, think planking and such
+        
+        
     }
 }

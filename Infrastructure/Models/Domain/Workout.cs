@@ -9,13 +9,8 @@ public class Workout
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int WorkoutId { get; set; }
 
-    [MaxLength(50)]
-    public bool IsCompleted { get; set; }
-    public int ExerciseRepetitions { get; set; }
-
     // Relations
-    public IEnumerable<Exercise> Exercises { get; set; }
-    public IEnumerable<Program> Programs { get; set; }
+    public ICollection<Exercise> Exercises { get; set; }
+    public ICollection<Program> Programs { get; set; }
     public User Contributor { get; set; }
-    public int UserId { get; set; }
 }

@@ -43,7 +43,7 @@ namespace Infrastructure.Controllers
             // Creates profile variable from body.
             Profile profile = _mapper.Map<Profile>(profileDTO);
             // Adds user to profile using token.
-            profile.UserId = GetIdentity().CurrentUserId(_context);
+            profile.User.UserId = GetIdentity().CurrentUserId(_context);
 
             try
             {

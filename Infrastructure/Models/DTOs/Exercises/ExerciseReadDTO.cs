@@ -1,10 +1,17 @@
 ﻿using Infrastructure.Models.Domain;
 using System.ComponentModel.DataAnnotations;
+using Infrastructure.Models.Domain.Exercises;
 
-namespace Infrastructure.Models.DTOs.Exercises.ExerciseEditDTO
+namespace Infrastructure.Models.DTOs.Exercises.ExerciseReadDTO
 {
-    public class ExerciseEditDTO
+    public class ExerciseReadDTO
     {
+        /// <summary>
+        /// The primary key of exercise.
+        /// </summary>
+        /// <example>2</example>
+        [Key]
+        public int ExerciseId { get; set; }
         /// <summary>
         /// Name of exercise.
         /// </summary>
@@ -39,5 +46,11 @@ namespace Infrastructure.Models.DTOs.Exercises.ExerciseEditDTO
         /// <example>Insert Url</example>
         [Url]
         public string VideoLink { get; set; }
+        
+        // Different exercise types
+        public ExerciseTypeEnum Type { get; set; }
+        public double DistanceInKm { get; set; } // Used for cardio exercises
+        public int Repetitions { get; set; } // Used for muscle workouts
+        public double Seconds { get; set; } // Used for timed exercises, think planking and such
     }
 }

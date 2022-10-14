@@ -17,6 +17,6 @@ public class Profile
     
     // Relations
     public IEnumerable<Goal> Goals { get; set; }
+    [Key, ForeignKey("UserId")]
     public User User { get; set; }
-    public int UserId { get; set; }
 }

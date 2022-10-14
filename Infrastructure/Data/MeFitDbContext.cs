@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Bogus;
 using Infrastructure.Models.Domain.Exercises;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Data;
 
@@ -12,12 +13,11 @@ public class MeFitDbContext : DbContext
     public DbSet<Profile> Profiles { get; set; }
     public DbSet<Models.Domain.Program> Programs { get; set; }
     public DbSet<Workout> Workouts { get; set; }
+    public DbSet<CompletedWorkout> CompletedWorkouts { get; set; }
     public DbSet<User> Users { get; set; }
 
-    // Exercises:
-    public DbSet<TimedExercise> TimedExercises { get; set; }
-    public DbSet<RepExercise> RepExercises { get; set; }
-    public DbSet<CardioExercise> CardioExercises { get; set; }
+    public DbSet<Exercise> Exercises { get; set; }
+
 
 
     public MeFitDbContext(DbContextOptions options) : base(options)
@@ -39,6 +39,31 @@ public class MeFitDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        var valueComparer = new ValueComparer<ICollection<MuscleEnum>>(
+            (c1, c2) => c1.SequenceEqual(c2),
+            c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+            c => (ICollection<MuscleEnum>)c.ToHashSet());
+        
+        builder
+            .Entity<Exercise>()
+            .Property(e => e.MuscleGroups)
+            .HasConversion(
+                v => string.Join(",", v.Select(e => e.ToString("D")).ToArray()),
+                v => v.Split(new[] { ',' })
+                    .Select(e =>  Enum.Parse(typeof(MuscleEnum), e))
+                    .Cast<MuscleEnum>()
+                    .ToList()
+            ).Metadata.SetValueComparer(valueComparer);
+
+        builder.Entity<CompletedWorkout>()
+            .HasOne(c => c.Profile)
+            .WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
+        builder.Entity<CompletedWorkout>()
+            .HasOne(c => c.Workout)
+            .WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
+
 
     }
 

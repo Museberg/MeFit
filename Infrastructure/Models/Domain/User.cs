@@ -16,6 +16,6 @@ namespace Infrastructure.Models.Domain
         [MaxLength(50)]
         public string LastName { get; set; }
         public Profile Profile { get; set; }
-        public Workout Contributed { get; set; }
+        public ICollection<Workout> Contributed { get; set; }
     }
 }
