@@ -12,6 +12,6 @@
         /// </summary>
         /// <example></example>
         public string Category { get; set; }
-        public IEnumerable<Models.Domain.Workout> Workouts { get; set; }
+        public ICollection<Models.Domain.Workout> Workouts { get; set; }
     }
 }

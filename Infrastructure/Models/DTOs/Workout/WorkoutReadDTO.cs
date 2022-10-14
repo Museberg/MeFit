@@ -17,8 +17,8 @@ namespace Infrastructure.DTOs.Workout
         /// <example>false</example>
         public bool IsCompleted { get; set; }
         public int ExerciseRepetitions { get; set; }
-        public IEnumerable<Exercise> Exercises { get; set; }
-        public IEnumerable<Models.Domain.Program> Programs { get; set; }
+        public ICollection<Exercise> Exercises { get; set; }
+        public ICollection<Models.Domain.Program> Programs { get; set; }
         public Models.Domain.User Contributor { get; set; }
     }
 }

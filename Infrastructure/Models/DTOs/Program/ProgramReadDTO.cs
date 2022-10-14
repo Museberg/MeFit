@@ -24,6 +24,6 @@ namespace Infrastructure.DTOs.Program
         /// List of workout types assiated with program
         /// </summary>
         /// <example>[Pull-ups,Push-Ups]</example>
-        public IEnumerable<string> Workouts { get; set; }
+        public ICollection<string> Workouts { get; set; }
     }
 }

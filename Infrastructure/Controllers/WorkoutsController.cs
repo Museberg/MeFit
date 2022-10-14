@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Infrastructure.DTOs.Workout;
 
+
 namespace Infrastructure.Controllers
 {
     [Authorize]
@@ -109,6 +110,57 @@ namespace Infrastructure.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("{id}/Exercises")]
+        public async Task<ActionResult<IEnumerable<int>>> GetExerciseIds(int id)
+        {
+            var workout = await _context.Workouts.Include(w => w.Exercises).FirstOrDefaultAsync(p => p.WorkoutId == id);
+
+            List<int> exerciseIds = new List<int>();
+
+            foreach (var exercise in workout.Exercises)
+            {
+                exerciseIds.Add(exercise.ExerciseId);
+            }
+
+            return exerciseIds;
+        }
+
+        [HttpPut("{id}/Exercises")]
+        public async Task<IActionResult> AddWorkouts(int id, [FromBody] List<int> exerciseIds)
+        {
+            Models.Domain.Workout? workout = await _context.Workouts.Include(t => t.Exercises).FirstOrDefaultAsync(s => s.WorkoutId == id);
+
+            if (workout == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var exerciseId in exerciseIds)
+            {
+                Exercise exercise = await _context.Exercises.FindAsync(exerciseId);
+
+                if (exercise == null)
+                {
+                    return BadRequest();
+                }
+
+                workout.Exercises.Add(exercise);
+            }
+
+            try
+            {
+                _context.Entry(workout).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return NoContent();
+        }
+
 
         private bool WorkoutExists(int id)
         {

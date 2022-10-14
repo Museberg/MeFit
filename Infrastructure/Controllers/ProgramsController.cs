@@ -10,6 +10,7 @@ using Infrastructure.Models.Domain;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Infrastructure.DTOs.Program;
+using Infrastructure.DTOs.Workout;
 
 namespace Infrastructure.Controllers
 {
@@ -105,6 +106,55 @@ namespace Infrastructure.Controllers
             return NoContent();
         }
 
+        [HttpGet("{id}/workouts")]
+        public async Task<ActionResult<IEnumerable<int>>> GetWorkoutsIds(int id)
+        {
+            var program = await _context.Programs.Include(w => w.Workouts).FirstOrDefaultAsync(p => p.ProgramId == id);
+
+            List<int> workoutIds = new List<int>();
+
+            foreach (var workout in program.Workouts)
+            {
+                workoutIds.Add(workout.WorkoutId);
+            }
+
+            return workoutIds;
+        }
+
+        [HttpPut("{id}/workouts")]
+        public async Task<IActionResult> AddWorkouts(int id, [FromBody] List<int> workoutIds)
+        {
+            Models.Domain.Program? program = await _context.Programs.Include(t => t.Workouts).FirstOrDefaultAsync(s => s.ProgramId == id);
+
+            if (program == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var workoutId in workoutIds)
+            {
+                Workout workout = await _context.Workouts.FindAsync(workoutId);
+
+                if (workout == null)
+                {
+                    return BadRequest();
+                }
+
+                program.Workouts.Add(workout);
+            }
+
+            try
+            {
+                _context.Entry(program).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return NoContent();
+        }
         private bool ProgramExists(int id)
         {
             return _context.Programs.Any(e => e.ProgramId == id);

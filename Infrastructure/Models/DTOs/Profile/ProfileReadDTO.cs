@@ -37,6 +37,6 @@ namespace Infrastructure.DTOs.Profile
         /// List of goals chosen by user.
         /// </summary>
         /// <example>[Power-ups, Curls]</example>
-        public IEnumerable<string> Goals { get; set; }
+        public ICollection<string> Goals { get; set; }
     }
 }
