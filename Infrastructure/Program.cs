@@ -37,7 +37,7 @@ builder.Services.AddDbContext<MeFitDbContext>(options =>
     var host = hostSide.Split("/")[0];
     var database = hostSide.Split("/")[1].Split("?")[0];
 
-    connectionString = $"Host={host};Database={database};Username={user};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+    connectionString = $"Host={host};Database={database};Username={user};Password={password};";
 
     options.UseNpgsql(connectionString);
     options.EnableSensitiveDataLogging();
