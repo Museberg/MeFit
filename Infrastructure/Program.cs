@@ -4,18 +4,31 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using System.Reflection;
+using System;
+using System.IO;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+
+builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
+.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+.AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)
+.AddEnvironmentVariables();
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(typeof(Program));
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<MeFitDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(connectionString);
     options.EnableSensitiveDataLogging();
 });
+
 builder.Services.AddScoped<DbInitializer>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

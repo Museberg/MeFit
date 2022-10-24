@@ -1,8 +1,6 @@
 using Infrastructure.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Bogus;
-using Infrastructure.Models.Domain.Exercises;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Data;
@@ -24,6 +22,8 @@ public class MeFitDbContext : DbContext
     {
         
     }
+    
+    
 
     public MeFitDbContext()
     {
