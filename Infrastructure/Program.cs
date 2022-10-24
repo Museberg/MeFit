@@ -25,7 +25,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<MeFitDbContext>(options =>
 {
-    options.UseSqlServer(connectionString);
+    options.UseNpgsql("postgres://nkplzmxmcdpngh:12a28d951dc111c66d7ffb91d0cabe5b9952952e48853dedf59108ce5f06935f@ec2-52-208-164-5.eu-west-1.compute.amazonaws.com:5432/dd2i41q8acvsj7");
     options.EnableSensitiveDataLogging();
 });
 
