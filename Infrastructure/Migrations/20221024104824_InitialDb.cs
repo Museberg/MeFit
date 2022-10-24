@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -13,17 +14,17 @@ namespace Infrastructure.Migrations
                 name: "Exercises",
                 columns: table => new
                 {
-                    ExerciseId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false),
-                    MuscleGroups = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VideoLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    DistanceInKm = table.Column<double>(type: "float", nullable: false),
-                    Repetitions = table.Column<int>(type: "int", nullable: false),
-                    Seconds = table.Column<double>(type: "float", nullable: false)
+                    ExerciseId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: false),
+                    MuscleGroups = table.Column<string>(type: "text", nullable: false),
+                    ImageLink = table.Column<string>(type: "text", nullable: false),
+                    VideoLink = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    DistanceInKm = table.Column<double>(type: "double precision", nullable: false),
+                    Repetitions = table.Column<int>(type: "integer", nullable: false),
+                    Seconds = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,10 +35,10 @@ namespace Infrastructure.Migrations
                 name: "Programs",
                 columns: table => new
                 {
-                    ProgramId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ProgramId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Category = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,12 +49,12 @@ namespace Infrastructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KeycloakId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    UserId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KeycloakId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,13 +65,13 @@ namespace Infrastructure.Migrations
                 name: "Profiles",
                 columns: table => new
                 {
-                    ProfileId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Weight = table.Column<double>(type: "float", nullable: false),
-                    Height = table.Column<double>(type: "float", nullable: false),
-                    MedicalConditions = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Disabilities = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    ProfileId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Weight = table.Column<double>(type: "double precision", nullable: false),
+                    Height = table.Column<double>(type: "double precision", nullable: false),
+                    MedicalConditions = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Disabilities = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,9 +88,9 @@ namespace Infrastructure.Migrations
                 name: "Workouts",
                 columns: table => new
                 {
-                    WorkoutId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ContributorUserId = table.Column<int>(type: "int", nullable: false)
+                    WorkoutId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ContributorUserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,13 +107,13 @@ namespace Infrastructure.Migrations
                 name: "Goals",
                 columns: table => new
                 {
-                    GoalId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GoalId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     StartingDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    IsAchieved = table.Column<bool>(type: "bit", nullable: false),
-                    ProgramId = table.Column<int>(type: "int", nullable: false),
-                    ProfileId = table.Column<int>(type: "int", nullable: false)
+                    IsAchieved = table.Column<bool>(type: "boolean", nullable: false),
+                    ProgramId = table.Column<int>(type: "integer", nullable: false),
+                    ProfileId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,10 +136,10 @@ namespace Infrastructure.Migrations
                 name: "CompletedWorkouts",
                 columns: table => new
                 {
-                    CompletedWorkoutId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProfileId = table.Column<int>(type: "int", nullable: false),
-                    WorkoutId = table.Column<int>(type: "int", nullable: false)
+                    CompletedWorkoutId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProfileId = table.Column<int>(type: "integer", nullable: false),
+                    WorkoutId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -159,8 +160,8 @@ namespace Infrastructure.Migrations
                 name: "ExerciseWorkout",
                 columns: table => new
                 {
-                    ExercisesExerciseId = table.Column<int>(type: "int", nullable: false),
-                    WorkoutsWorkoutId = table.Column<int>(type: "int", nullable: false)
+                    ExercisesExerciseId = table.Column<int>(type: "integer", nullable: false),
+                    WorkoutsWorkoutId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -183,8 +184,8 @@ namespace Infrastructure.Migrations
                 name: "ProgramWorkout",
                 columns: table => new
                 {
-                    ProgramsProgramId = table.Column<int>(type: "int", nullable: false),
-                    WorkoutsWorkoutId = table.Column<int>(type: "int", nullable: false)
+                    ProgramsProgramId = table.Column<int>(type: "integer", nullable: false),
+                    WorkoutsWorkoutId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
