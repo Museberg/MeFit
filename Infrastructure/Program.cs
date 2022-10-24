@@ -25,10 +25,24 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<MeFitDbContext>(options =>
 {
-    connectionString = "Server=ec2-52-208-164-5.eu-west-1.compute.amazonaws.com;Port=5432;Database=dd2i41q8acvsj7;User Id=nkplzmxmcdpngh;Password=12a28d951dc111c66d7ffb91d0cabe5b9952952e48853dedf59108ce5f06935f;";
+    // Use connection string provided at runtime by Heroku.
+    var connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+    connectionUrl = connectionUrl.Replace("postgres://", string.Empty);
+    var userPassSide = connectionUrl.Split("@")[0];
+    var hostSide = connectionUrl.Split("@")[1];
+
+    var user = userPassSide.Split(":")[0];
+    var password = userPassSide.Split(":")[1];
+    var host = hostSide.Split("/")[0];
+    var database = hostSide.Split("/")[1].Split("?")[0];
+
+    connectionString = $"Host={host};Database={database};Username={user};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+
     options.UseNpgsql(connectionString);
     options.EnableSensitiveDataLogging();
 });
+
 
 builder.Services.AddScoped<DbInitializer>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
