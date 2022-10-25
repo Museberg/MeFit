@@ -13,10 +13,12 @@ using Infrastructure.Models.DTOs.Exercises.ExerciseReadDTO;
 using Infrastructure.Models.Domain.Exercises;
 using Infrastructure.Models.DTOs.Exercises.ExerciseCreateDTO;
 using Infrastructure.Models.DTOs.Exercises.ExerciseEditDTO;
+using Microsoft.AspNetCore.Cors;
 
 namespace Infrastructure.Controllers
 {
     [Authorize]
+    [DisableCors]
     [Route("api/Exercises/[controller]")]
     [ApiController]
     public class ExercisesController : ControllerBase
