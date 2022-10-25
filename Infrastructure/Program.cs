@@ -138,6 +138,6 @@ void SetupKeycloak()
 
     builder.Services.AddAuthorization(options =>
     {
-        options.AddPolicy("Contributor", policy => policy.RequireClaim("roles", "[Contributor]"));
+        options.AddPolicy("Contributor", policy => policy.RequireClaim("resource_access:MeFit:roles", "[Contributor]"));
     });
 }
