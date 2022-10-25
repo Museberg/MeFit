@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Cors;
 namespace Infrastructure.Controllers
 {
     [Authorize]
-    [DisableCors]
     [Route("api/Exercises/[controller]")]
     [ApiController]
     public class ExercisesController : ControllerBase

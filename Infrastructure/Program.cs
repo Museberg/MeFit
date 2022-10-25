@@ -10,8 +10,18 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Options;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:3000");
+                      });
+});
 
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -75,7 +85,7 @@ if (app.Environment.IsDevelopment() || true)
 app.UseHttpsRedirection();
 app.UseAuthentication().UseAuthorization();
 app.MapControllers();
-app.UseCors();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();
 
