@@ -10,8 +10,21 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Options;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins()
+                          .AllowAnyHeader()
+                          .AllowAnyOrigin()
+                          .AllowAnyMethod();
+                      });
+});
 
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -75,6 +88,7 @@ if (app.Environment.IsDevelopment() || true)
 app.UseHttpsRedirection();
 app.UseAuthentication().UseAuthorization();
 app.MapControllers();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();
 
@@ -138,6 +152,6 @@ void SetupKeycloak()
 
     builder.Services.AddAuthorization(options =>
     {
-        options.AddPolicy("Contributor", policy => policy.RequireClaim("roles", "[Contributor]"));
+        options.AddPolicy("Contributor", policy => policy.RequireClaim("resource_access:MeFit:roles", "[Contributor]"));
     });
 }

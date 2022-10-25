@@ -13,6 +13,7 @@ using Infrastructure.Models.DTOs.Exercises.ExerciseReadDTO;
 using Infrastructure.Models.Domain.Exercises;
 using Infrastructure.Models.DTOs.Exercises.ExerciseCreateDTO;
 using Infrastructure.Models.DTOs.Exercises.ExerciseEditDTO;
+using Microsoft.AspNetCore.Cors;
 
 namespace Infrastructure.Controllers
 {

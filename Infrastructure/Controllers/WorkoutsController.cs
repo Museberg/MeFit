@@ -10,7 +10,7 @@ using Infrastructure.Models.Domain;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Infrastructure.DTOs.Workout;
-
+using Microsoft.AspNetCore.Cors;
 
 namespace Infrastructure.Controllers
 {
