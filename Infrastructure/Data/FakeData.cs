@@ -101,10 +101,11 @@ public class FakeData
         
   
         // Exercises
+        var cardioIndex = 0;
         var fakeCardioExercises = new Faker<Exercise>()
             .StrictMode(false)
             .RuleFor(e => e.ExerciseId, f => 0)
-            .RuleFor(e => e.Name, f => f.PickRandom(cardioExercises))
+            .RuleFor(e => e.Name, f => cardioExercises[cardioIndex++])
             .RuleFor(e => e.Description, f => f.Lorem.Paragraph())
             .RuleFor(e => e.DistanceInKm, f => f.Random.Double(42))
             .RuleFor(e => e.Type, f => ExerciseTypeEnum.Distance)
@@ -112,10 +113,11 @@ public class FakeData
             .RuleFor(e => e.ImageLink, f => f.Image.LoremFlickrUrl(keywords: "workout"))
             .RuleFor(e => e.VideoLink, f => f.PickRandom(videoLinks));
 
+        var repIndex = 0;
         var fakeRepExercises = new Faker<Exercise>()
             .StrictMode(false)
             .RuleFor(e => e.ExerciseId, f => 0)
-            .RuleFor(e => e.Name, f => f.PickRandom(repExercises))
+            .RuleFor(e => e.Name, f => repExercises[repIndex++])
             .RuleFor(e => e.Description, f => f.Lorem.Paragraph())
             .RuleFor(e => e.Repetitions, f => f.Random.Number(50))
             .RuleFor(e => e.Type, f => ExerciseTypeEnum.Repetitions)
@@ -123,21 +125,23 @@ public class FakeData
             .RuleFor(e => e.ImageLink, f => f.Image.LoremFlickrUrl(keywords: "workout"))
             .RuleFor(e => e.VideoLink, f => f.PickRandom(videoLinks));
 
+        var timedIndex = 0;
         var fakeTimedExercises = new Faker<Exercise>()
             .StrictMode(false)
             .RuleFor(e => e.ExerciseId, f => 0)
-            .RuleFor(e => e.Name, f => f.PickRandom(timedExercises))
+            .RuleFor(e => e.Name, f => timedExercises[timedIndex++])
             .RuleFor(e => e.Description, f => f.Lorem.Paragraph())
             .RuleFor(e => e.Type, f => ExerciseTypeEnum.Timed)
             .RuleFor(e => e.Seconds, f => f.Random.Double(7200))
             .RuleFor(e => e.MuscleGroups, f => timedExerciseMuscleGroupDict[f.PickRandom(timedExercises)])
             .RuleFor(e => e.ImageLink, f => f.Image.LoremFlickrUrl(keywords: "workout"))
             .RuleFor(e => e.VideoLink, f => f.PickRandom(videoLinks));
+        
 
         var mixedExercises = new List<Exercise>();
-        mixedExercises.AddRange(fakeCardioExercises.Generate(10));
-        mixedExercises.AddRange(fakeRepExercises.Generate(50));
-        mixedExercises.AddRange(fakeTimedExercises.Generate(10));
+        mixedExercises.AddRange(fakeTimedExercises.Generate(timedExercises.Count));
+        mixedExercises.AddRange(fakeRepExercises.Generate(repExercises.Count));
+        mixedExercises.AddRange(fakeCardioExercises.Generate(cardioExercises.Count));
 
         var fakeUsers = new Faker<User>()
             .StrictMode(false)
