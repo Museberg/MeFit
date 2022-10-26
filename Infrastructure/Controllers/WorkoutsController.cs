@@ -50,7 +50,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<WorkoutCreateDTO>> PostWorkout(WorkoutCreateDTO workoutDTO)
+        public async Task<ActionResult<int>> PostWorkout(WorkoutCreateDTO workoutDTO)
         {
             Workout workout = _mapper.Map<Workout>(workoutDTO);
             workout.Contributor = GetIdentity().CurrentUser(_context);
@@ -64,7 +64,7 @@ namespace Infrastructure.Controllers
                 return BadRequest();
             }
             
-            return CreatedAtAction("GetWorkout", new { id = workout.WorkoutId }, workoutDTO);
+            return workout.WorkoutId;
         }
 
         [HttpPut("{id}")]
