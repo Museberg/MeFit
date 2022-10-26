@@ -42,7 +42,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProgramCreateDTO>> PostProgram(ProgramCreateDTO programDTO)
+        public async Task<ActionResult<int>> PostProgram(ProgramCreateDTO programDTO)
         {
             Models.Domain.Program program = _mapper.Map<Models.Domain.Program>(programDTO);
 
@@ -56,7 +56,7 @@ namespace Infrastructure.Controllers
                 return BadRequest();
             }
 
-            return CreatedAtAction("GetProgram", new { id = program.ProgramId }, programDTO);
+            return program.ProgramId;
         }
 
         [HttpPut("{id}")]
