@@ -156,7 +156,7 @@ public class FakeData
         var fakeWorkouts = new Faker<Workout>()
             .StrictMode(false)
             .RuleFor(w => w.WorkoutId, f => 0)
-            .RuleFor(w => w.Exercises, f => f.PickRandom(mixedExercises, 1).ToList())
+            .RuleFor(w => w.Exercises, f => f.PickRandom(mixedExercises, 2).ToList())
             .RuleFor(w => w.Contributor, f => f.PickRandom(Users));
         
 
