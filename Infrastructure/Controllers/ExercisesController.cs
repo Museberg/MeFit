@@ -51,7 +51,6 @@ namespace Infrastructure.Controllers
             return _mapper.Map<ExerciseReadDTO>(CardioExercise);
         }
 
-        [Authorize(Roles = "Contributor")]
         [HttpPost]
         public async Task<ActionResult<ExerciseCreateDTO>> PostCardioExercise(ExerciseCreateDTO CardioExerciseDTO)
         {
