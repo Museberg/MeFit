@@ -26,7 +26,7 @@ namespace Infrastructure.Models.DTOs.Exercises.ExerciseCreateDTO
         /// The target muscle group of the exercise.
         /// </summary>
         /// <example>Biceps and upper back</example>
-        public IEnumerable<MuscleEnum> MuscleGroup { get; set; }
+        public IEnumerable<MuscleEnum> MuscleGroups { get; set; }
         /// <summary>
         /// Link to exercise image.
         /// </summary>
