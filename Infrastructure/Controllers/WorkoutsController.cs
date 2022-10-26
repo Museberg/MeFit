@@ -40,7 +40,7 @@ namespace Infrastructure.Controllers
             return _mapper.Map<WorkoutReadDTO>(workout);
         }
 
-        [Authorize(Roles = "Contributor")]
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<WorkoutCreateDTO>> PostWorkout(WorkoutCreateDTO workoutDTO)
         {
