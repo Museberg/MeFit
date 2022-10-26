@@ -4,7 +4,7 @@ using Infrastructure.Models.Domain.Exercises;
 
 namespace Infrastructure.Models.DTOs.Exercises.ExerciseCreateDTO
 {
-    public abstract class ExerciseCreateDTO
+    public class ExerciseCreateDTO
     {
         /// <summary>
         /// Name of exercise.
