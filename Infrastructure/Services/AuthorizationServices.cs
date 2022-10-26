@@ -12,9 +12,9 @@ namespace Infrastructure.Services
             return new UserCreateDTO
             {
                 KeycloakId = new Guid(userClaims.First(s => s.Type == ClaimTypes.NameIdentifier).Value),
-                FirstName = userClaims.First(s => s.Type == ClaimTypes.GivenName).Value,
-                LastName = userClaims.First(s => s.Type == ClaimTypes.Surname).Value,
-                Email = userClaims.First(s => s.Type == ClaimTypes.Email).Value
+                FirstName = "Nic",
+                LastName = "Olai",
+                Email = "example@mail.com"
             };
         }
 
