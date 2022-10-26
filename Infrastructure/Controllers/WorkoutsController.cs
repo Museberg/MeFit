@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Infrastructure.DTOs.Workout;
 using Microsoft.AspNetCore.Cors;
+using System.Security.Claims;
+using Infrastructure.Services;
 
 namespace Infrastructure.Controllers
 {
@@ -25,6 +27,13 @@ namespace Infrastructure.Controllers
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<WorkoutReadDTO>>> GetWorkouts()
+        {
+            List<Workout> workouts = await _context.Workouts.OrderBy(x => x.Name).ToListAsync();
+            return _mapper.Map<List<WorkoutReadDTO>>(workouts);
         }
 
         [HttpGet("{id}")]
@@ -45,6 +54,7 @@ namespace Infrastructure.Controllers
         public async Task<ActionResult<WorkoutCreateDTO>> PostWorkout(WorkoutCreateDTO workoutDTO)
         {
             Workout workout = _mapper.Map<Workout>(workoutDTO);
+            workout.Contributor.UserId = GetIdentity().CurrentUserId(_context);
 
             try
             {
@@ -162,6 +172,12 @@ namespace Infrastructure.Controllers
         private bool WorkoutExists(int id)
         {
             return _context.Workouts.Any(e => e.WorkoutId == id);
+        }
+
+        private IEnumerable<Claim> GetIdentity()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            return identity.Claims;
         }
     }
 }

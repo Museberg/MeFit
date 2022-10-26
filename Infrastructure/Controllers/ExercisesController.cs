@@ -34,8 +34,8 @@ namespace Infrastructure.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ExerciseReadDTO>>> GetCardioExercises()
         {
-            List<Exercise> Exercises = await _context.Exercises.OrderBy(x => x.MuscleGroups).ToListAsync();
-            return _mapper.Map<List<ExerciseReadDTO>>(Exercises);
+            List<Exercise> exercises = await _context.Exercises.OrderBy(x => x.MuscleGroups).ToListAsync();
+            return _mapper.Map<List<ExerciseReadDTO>>(exercises);
         }
 
         [HttpGet("{id}")]
