@@ -43,6 +43,13 @@ builder.Services.AddDbContext<MeFitDbContext>(options =>
     // Use connection string provided at runtime by Heroku.
     var connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
+    if (connectionUrl is null)
+    {
+        options.UseNpgsql("whatever");
+        options.EnableSensitiveDataLogging();
+        return;
+    }
+
     connectionUrl = connectionUrl.Replace("postgres://", string.Empty);
     var userPassSide = connectionUrl.Split("@")[0];
     var hostSide = connectionUrl.Split("@")[1];
