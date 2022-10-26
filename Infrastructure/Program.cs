@@ -26,6 +26,8 @@ builder.Services.AddCors(options =>
                       });
 });
 
+builder.Services.AddControllers().AddNewtonsoftJson();
+
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)

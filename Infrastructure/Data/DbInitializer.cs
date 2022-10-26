@@ -13,8 +13,10 @@ public class DbInitializer
         {
             FakeData.Init(profilesToFake);
             context.Profiles.AddRange(FakeData.Profiles);
+            
+            context.SaveChanges();
         }
         
-        context.SaveChanges();
+        
     }
 }
