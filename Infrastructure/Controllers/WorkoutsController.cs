@@ -49,12 +49,11 @@ namespace Infrastructure.Controllers
             return _mapper.Map<WorkoutReadDTO>(workout);
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<ActionResult<WorkoutCreateDTO>> PostWorkout(WorkoutCreateDTO workoutDTO)
         {
             Workout workout = _mapper.Map<Workout>(workoutDTO);
-            workout.Contributor.UserId = GetIdentity().CurrentUserId(_context);
+            workout.Contributor = GetIdentity().CurrentUser(_context);
 
             try
             {
