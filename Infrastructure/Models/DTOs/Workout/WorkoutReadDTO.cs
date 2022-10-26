@@ -7,7 +7,6 @@ namespace Infrastructure.DTOs.Workout
     {
         /// <summary>
         /// Primary key of workout
-        /// </summary>
         /// <example></example>
         [Key]
         public int WorkoutId { get; set; }
@@ -15,8 +14,8 @@ namespace Infrastructure.DTOs.Workout
         /// Has the workout been completed?
         /// </summary>
         /// <example>false</example>
-        public bool IsCompleted { get; set; }
-        public int ExerciseRepetitions { get; set; }
+        /// 
+        public string Name { get; set; }
         public ICollection<Exercise> Exercises { get; set; }
         public ICollection<Models.Domain.Program> Programs { get; set; }
         public Models.Domain.User Contributor { get; set; }

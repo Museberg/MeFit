@@ -9,6 +9,9 @@ public class Workout
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int WorkoutId { get; set; }
 
+    [MaxLength(30)]
+    public string Name { get; set; }
+
     // Relations
     public ICollection<Exercise> Exercises { get; set; }
     public ICollection<Program> Programs { get; set; }

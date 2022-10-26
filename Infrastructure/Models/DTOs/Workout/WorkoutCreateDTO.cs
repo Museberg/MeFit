@@ -8,8 +8,6 @@ namespace Infrastructure.DTOs.Workout
         /// Has the workout been completed?
         /// </summary>
         /// <example>false</example>
-        public bool IsCompleted { get; set; }
-        public int ExerciseRepetitions { get; set; }
-        public int UserId { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -58,8 +58,6 @@ namespace Infrastructure.Controllers
             return CreatedAtAction("GetWorkout", new { id = workout.WorkoutId }, workoutDTO);
         }
 
-
-        [Authorize(Roles = "Contributor")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWorkout(int id, WorkoutEditDTO workoutDTO)
         {
@@ -85,7 +83,6 @@ namespace Infrastructure.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "Contributor")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWorkout(int id)
         {

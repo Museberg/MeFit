@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Cors;
 namespace Infrastructure.Controllers
 {
     [Authorize]
-    [Route("api/Exercises/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ExercisesController : ControllerBase
     {
@@ -69,7 +69,7 @@ namespace Infrastructure.Controllers
             return CreatedAtAction("GetCardioExercise", new { id = CardioExercise.ExerciseId }, CardioExerciseDTO);
         }
 
-        [Authorize(Roles = "Contributor")]
+        // [Authorize(Roles = "Contributor")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCardioExercise(int id, ExerciseEditDTO CardioExerciseDTO)
         {
@@ -95,7 +95,6 @@ namespace Infrastructure.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "Contributor")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCardioExercise(int id)
         {
