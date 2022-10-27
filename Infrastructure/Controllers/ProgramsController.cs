@@ -30,6 +30,13 @@ namespace Infrastructure.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProgramReadDTO>>> GetWorkouts()
+        {
+            var programs = await _context.Programs.OrderBy(x => x.Name).ToListAsync();
+            return _mapper.Map<List<ProgramReadDTO>>(programs);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ProgramReadDTO>> GetProgram(int id)
         {
