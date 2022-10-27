@@ -28,7 +28,9 @@
         /// </summary>
         /// <example></example>
         public Models.Domain.Profile Profile { get; set; }
-        public Models.Domain.Workout Contributed { get; set; }
-        public Models.Domain.User Contributor { get; set; }
+        public ICollection<Models.Domain.Workout> workoutsContributed { get; set; }
+        public ICollection<Models.Domain.Exercise> exercisesContributed { get; set; }
+        public ICollection<Models.Domain.Program> programsContributed { get; set; }
+        public ICollection<Models.Domain.Goal> userGoals { get; set; }
     }
 }

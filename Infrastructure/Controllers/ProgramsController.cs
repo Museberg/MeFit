@@ -31,7 +31,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProgramReadDTO>>> GetWorkouts()
+        public async Task<ActionResult<IEnumerable<ProgramReadDTO>>> GetPrograms()
         {
             var programs = await _context.Programs.OrderBy(x => x.Name).ToListAsync();
             return _mapper.Map<List<ProgramReadDTO>>(programs);
