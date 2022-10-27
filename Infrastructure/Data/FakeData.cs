@@ -163,22 +163,26 @@ public class FakeData
             .RuleFor(w => w.Exercises, f => f.PickRandom(mixedExercises, 2).ToList())
             .RuleFor(w => w.Contributor, f => f.PickRandom(Users));
 
+        var fakeWorkoutsList = fakeWorkouts.Generate(15);
+
 
         var fakePrograms = new Faker<Models.Domain.Program>()
             .StrictMode(false)
             .RuleFor(p => p.ProgramId, f => 0)
             .RuleFor(p => p.Name, f => f.Lorem.Sentence(3))
             .RuleFor(p => p.Category, f => f.Lorem.Sentence(wordCount: 3))
-            .RuleFor(p => p.Workouts, f => fakeWorkouts.Generate(f.Random.Number(10)))
+            .RuleFor(p => p.Workouts, f => new List<Workout>{ f.PickRandom(fakeWorkoutsList), f.PickRandom(fakeWorkoutsList)})
             .RuleFor(p => p.Contributor, f => f.PickRandom(Users));
 
+        var fakeProgramsList = fakePrograms.Generate(10);
+        
         var fakeGoals = new Faker<Goal>()
             .StrictMode(false)
             .RuleFor(g => g.GoalId, f => 0)
             .RuleFor(g => g.StartingDate, f => f.Date.PastDateOnly(1, constantDateOnly))
             .RuleFor(g => g.EndDate, f => f.Date.FutureDateOnly(1, constantDateOnly))
             .RuleFor(g => g.IsAchieved, f => Random.Next(100) <= 60)
-            .RuleFor(g => g.Program, f => fakePrograms.Generate());
+            .RuleFor(g => g.Program, f => f.PickRandom(fakeProgramsList));
 
         var fakeProfiles = new Faker<Profile>()
             .StrictMode(true)
@@ -186,7 +190,7 @@ public class FakeData
             .RuleFor(p => p.User, f => f.PickRandom(Users))
             .RuleFor(p => p.Disabilities, f => f.Lorem.Sentence())
             .RuleFor(p => p.MedicalConditions, f => f.Lorem.Sentence())
-            .RuleFor(p => p.Goals, f => fakeGoals.Generate(f.Random.Number(9) + 1))
+            .RuleFor(p => p.Goals, f => fakeGoals.Generate(f.Random.Number(4) + 1))
             .RuleFor(p => p.Height, f => f.Random.Double(0.1, 0.2) * 1000) // Height between 100-200 cm
             .RuleFor(p => p.Weight, f => f.Random.Double(0.05, 0.15) * 1000); // Weight between 50-150 kg
         
