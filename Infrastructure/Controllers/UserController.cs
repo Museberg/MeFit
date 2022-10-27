@@ -76,8 +76,9 @@ namespace Infrastructure.Controllers
         }
 
         [HttpGet("Exercises")]
-        public async Task<ActionResult<IEnumerable<ExerciseReadDTO>>> userExercises(int id)
+        public async Task<ActionResult<IEnumerable<ExerciseReadDTO>>> userExercises()
         {
+            int id = GetIdentity().CurrentUserId(_context);
             var user = await _context.Users.Include(w => w.exercisesContributed).FirstOrDefaultAsync(p => p.UserId == id);
 
             List<Exercise> exercises = new List<Exercise>();
@@ -91,8 +92,9 @@ namespace Infrastructure.Controllers
         }
 
         [HttpGet("Workouts")]
-        public async Task<ActionResult<IEnumerable<WorkoutReadDTO>>> userWorkouts(int id)
+        public async Task<ActionResult<IEnumerable<WorkoutReadDTO>>> userWorkouts()
         {
+            int id = GetIdentity().CurrentUserId(_context);
             var user = await _context.Users.Include(w => w.workoutsContributed).FirstOrDefaultAsync(p => p.UserId == id);
 
             List<Workout> workouts = new List<Workout>();
@@ -106,8 +108,9 @@ namespace Infrastructure.Controllers
         }
 
         [HttpGet("Programs")]
-        public async Task<ActionResult<IEnumerable<ProgramReadDTO>>> userPrograms(int id)
+        public async Task<ActionResult<IEnumerable<ProgramReadDTO>>> userPrograms()
         {
+            int id = GetIdentity().CurrentUserId(_context);
             var user = await _context.Users.Include(w => w.programsContributed).FirstOrDefaultAsync(p => p.UserId == id);
 
             List<Models.Domain.Program> programs = new List<Models.Domain.Program>();
@@ -121,8 +124,9 @@ namespace Infrastructure.Controllers
         }
 
         [HttpGet("Goals")]
-        public async Task<ActionResult<IEnumerable<GoalReadDTO>>> userGoals(int id)
+        public async Task<ActionResult<IEnumerable<GoalReadDTO>>> userGoals()
         {
+            int id = GetIdentity().CurrentUserId(_context);
             var user = await _context.Users.Include(w => w.userGoals).FirstOrDefaultAsync(p => p.UserId == id);
 
             List<Goal> goals = new List<Goal>();
