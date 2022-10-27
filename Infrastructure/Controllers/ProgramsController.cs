@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Infrastructure.DTOs.Program;
 using Infrastructure.DTOs.Workout;
+using System.Security.Claims;
+using Infrastructure.Services;
 
 namespace Infrastructure.Controllers
 {
@@ -45,6 +47,7 @@ namespace Infrastructure.Controllers
         public async Task<ActionResult<int>> PostProgram(ProgramCreateDTO programDTO)
         {
             Models.Domain.Program program = _mapper.Map<Models.Domain.Program>(programDTO);
+            program.Contributor = GetIdentity().CurrentUser(_context);
 
             try
             {
@@ -154,6 +157,11 @@ namespace Infrastructure.Controllers
             }
 
             return NoContent();
+        }
+        private IEnumerable<Claim> GetIdentity()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            return identity.Claims;
         }
         private bool ProgramExists(int id)
         {

@@ -49,8 +49,8 @@ namespace Infrastructure.Models.DTOs.Exercises.ExerciseReadDTO
         
         // Different exercise types
         public ExerciseTypeEnum Type { get; set; }
-        public double DistanceInKm { get; set; } // Used for cardio exercises
-        public int Repetitions { get; set; } // Used for muscle workouts
-        public double Seconds { get; set; } // Used for timed exercises, think planking and such
+        public double? DistanceInKm { get; set; } // Used for cardio exercises
+        public int? Repetitions { get; set; } // Used for muscle workouts
+        public double? Seconds { get; set; } // Used for timed exercises, think planking and such
     }
 }

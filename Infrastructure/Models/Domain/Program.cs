@@ -13,4 +13,5 @@ public class Program
     // Relations
     public ICollection<Workout> Workouts { get; set; }
     public Goal Goal { get; set; }
+    public User Contributor { get; set; }
 }

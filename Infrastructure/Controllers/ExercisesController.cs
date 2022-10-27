@@ -14,6 +14,8 @@ using Infrastructure.Models.Domain.Exercises;
 using Infrastructure.Models.DTOs.Exercises.ExerciseCreateDTO;
 using Infrastructure.Models.DTOs.Exercises.ExerciseEditDTO;
 using Microsoft.AspNetCore.Cors;
+using System.Security.Claims;
+using Infrastructure.Services;
 
 namespace Infrastructure.Controllers
 {
@@ -54,11 +56,12 @@ namespace Infrastructure.Controllers
         [HttpPost]
         public async Task<ActionResult<ExerciseCreateDTO>> PostCardioExercise(ExerciseCreateDTO CardioExerciseDTO)
         {
-            Exercise CardioExercise = _mapper.Map<Exercise>(CardioExerciseDTO);
+            Exercise exercise = _mapper.Map<Exercise>(CardioExerciseDTO);
+            exercise.Contributor = GetIdentity().CurrentUser(_context);
 
             try
             {
-                _context.Exercises.Add(CardioExercise);
+                _context.Exercises.Add(exercise);
                 await _context.SaveChangesAsync();
             }
             catch
@@ -66,7 +69,7 @@ namespace Infrastructure.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return CreatedAtAction("GetCardioExercise", new { id = CardioExercise.ExerciseId }, CardioExerciseDTO);
+            return CreatedAtAction("GetCardioExercise", new { id = exercise.ExerciseId }, CardioExerciseDTO);
         }
 
         // [Authorize(Roles = "Contributor")]
@@ -117,6 +120,11 @@ namespace Infrastructure.Controllers
             }
 
             return NoContent();
+        }
+        private IEnumerable<Claim> GetIdentity()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            return identity.Claims;
         }
 
         private bool CardioExerciseExists(int id)

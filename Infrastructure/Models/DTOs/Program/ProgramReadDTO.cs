@@ -25,5 +25,6 @@ namespace Infrastructure.DTOs.Program
         /// </summary>
         /// <example>[Pull-ups,Push-Ups]</example>
         public ICollection<string> Workouts { get; set; }
+        public Models.Domain.User Contributor { get; set; }
     }
 }
