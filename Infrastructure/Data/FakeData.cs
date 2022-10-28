@@ -175,7 +175,7 @@ public class FakeData
             .RuleFor(p => p.Contributor, f => f.PickRandom(Users));
 
         var fakeProgramsList = fakePrograms.Generate(10);
-        
+
         var fakeGoals = new Faker<Goal>()
             .StrictMode(false)
             .RuleFor(g => g.GoalId, f => 0)
