@@ -80,11 +80,11 @@ namespace Infrastructure.Controllers
         public async Task<ActionResult<IEnumerable<ExerciseReadDTO>>> UserExercises()
         {
             int id = GetIdentity().CurrentUserId(_context);
-            var user = await _context.Users.Include(w => w.exercisesContributed).FirstOrDefaultAsync(p => p.UserId == id);
+            var user = await _context.Users.Include(w => w.ExercisesContributed).FirstOrDefaultAsync(p => p.UserId == id);
 
             List<Exercise> exercises = new List<Exercise>();
 
-            foreach (var exercise in user.exercisesContributed)
+            foreach (var exercise in user.ExercisesContributed)
             {
                 exercises.Add(exercise);
             }
@@ -96,11 +96,11 @@ namespace Infrastructure.Controllers
         public async Task<ActionResult<IEnumerable<WorkoutReadDTO>>> UserWorkouts()
         {
             int id = GetIdentity().CurrentUserId(_context);
-            var user = await _context.Users.Include(w => w.workoutsContributed).FirstOrDefaultAsync(p => p.UserId == id);
+            var user = await _context.Users.Include(w => w.WorkoutsContributed).FirstOrDefaultAsync(p => p.UserId == id);
 
             List<Workout> workouts = new List<Workout>();
 
-            foreach (var workout in user.workoutsContributed)
+            foreach (var workout in user.WorkoutsContributed)
             {
                 workouts.Add(workout);
             }
@@ -112,11 +112,11 @@ namespace Infrastructure.Controllers
         public async Task<ActionResult<IEnumerable<ProgramReadDTO>>> UserPrograms()
         {
             int id = GetIdentity().CurrentUserId(_context);
-            var user = await _context.Users.Include(w => w.programsContributed).FirstOrDefaultAsync(p => p.UserId == id);
+            var user = await _context.Users.Include(w => w.ProgramsContributed).FirstOrDefaultAsync(p => p.UserId == id);
 
             List<Models.Domain.Program> programs = new List<Models.Domain.Program>();
 
-            foreach (var program in user.programsContributed)
+            foreach (var program in user.ProgramsContributed)
             {
                 programs.Add(program);
             }
@@ -128,11 +128,11 @@ namespace Infrastructure.Controllers
         public async Task<ActionResult<IEnumerable<GoalReadDTO>>> UserGoals()
         {
             int id = GetIdentity().CurrentUserId(_context);
-            var user = await _context.Users.Include(w => w.userGoals).FirstOrDefaultAsync(p => p.UserId == id);
+            var user = await _context.Users.Include(w => w.UserGoals).FirstOrDefaultAsync(p => p.UserId == id);
 
             List<Goal> goals = new List<Goal>();
 
-            foreach (var goal in user.userGoals)
+            foreach (var goal in user.UserGoals)
             {
                 goals.Add(goal);
             }
