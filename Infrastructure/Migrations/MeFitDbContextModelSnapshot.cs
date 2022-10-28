@@ -126,7 +126,7 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsAchieved")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("ProfileId")
+                    b.Property<int>("ProfileId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ProgramId")
@@ -135,7 +135,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("StartingDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("GoalId");
@@ -330,9 +330,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Goal", b =>
                 {
-                    b.HasOne("Infrastructure.Models.Domain.Profile", null)
+                    b.HasOne("Infrastructure.Models.Domain.Profile", "Profile")
                         .WithMany("Goals")
-                        .HasForeignKey("ProfileId");
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Infrastructure.Models.Domain.Program", "Program")
                         .WithOne("Goal")
@@ -340,15 +342,13 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Infrastructure.Models.Domain.User", "User")
+                    b.HasOne("Infrastructure.Models.Domain.User", null)
                         .WithMany("UserGoals")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Profile");
 
                     b.Navigation("Program");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>

@@ -65,11 +65,6 @@ public class MeFitDbContext : DbContext
             .WithMany()
             .OnDelete(DeleteBehavior.NoAction);
 
-        builder.Entity<Goal>()
-            .HasOne(g => g.User)
-            .WithMany(u => u.UserGoals)
-            .OnDelete(DeleteBehavior.NoAction);
-        
         // Fixing some cascading with many-to-many relationship
         builder.Entity<Exercise>()
             .HasMany(p => p.Workouts)

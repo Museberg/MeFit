@@ -129,8 +129,8 @@ namespace Infrastructure.Migrations
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
                     IsAchieved = table.Column<bool>(type: "boolean", nullable: false),
                     ProgramId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    ProfileId = table.Column<int>(type: "integer", nullable: true)
+                    ProfileId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -139,7 +139,8 @@ namespace Infrastructure.Migrations
                         name: "FK_Goals_Profiles_ProfileId",
                         column: x => x.ProfileId,
                         principalTable: "Profiles",
-                        principalColumn: "ProfileId");
+                        principalColumn: "ProfileId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Goals_Programs_ProgramId",
                         column: x => x.ProgramId,

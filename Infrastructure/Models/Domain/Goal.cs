@@ -13,5 +13,5 @@ public class Goal
     public bool IsAchieved { get; set; }
     [ForeignKey("ProgramId")]
     public Program Program { get; set; }
-    public User User { get; set; }
+    public Profile Profile { get; set; }
 }
