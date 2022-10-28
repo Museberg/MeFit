@@ -11,6 +11,7 @@ using Infrastructure.Models.DTOs.Exercises.ExerciseReadDTO;
 using Infrastructure.DTOs.Workout;
 using Infrastructure.DTOs.Program;
 using Infrastructure.DTOs.Goal;
+using Profile = Infrastructure.Models.Domain.Profile;
 
 namespace Infrastructure.Controllers
 {
@@ -76,7 +77,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpGet("Exercises")]
-        public async Task<ActionResult<IEnumerable<ExerciseReadDTO>>> userExercises()
+        public async Task<ActionResult<IEnumerable<ExerciseReadDTO>>> UserExercises()
         {
             int id = GetIdentity().CurrentUserId(_context);
             var user = await _context.Users.Include(w => w.exercisesContributed).FirstOrDefaultAsync(p => p.UserId == id);
@@ -92,7 +93,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpGet("Workouts")]
-        public async Task<ActionResult<IEnumerable<WorkoutReadDTO>>> userWorkouts()
+        public async Task<ActionResult<IEnumerable<WorkoutReadDTO>>> UserWorkouts()
         {
             int id = GetIdentity().CurrentUserId(_context);
             var user = await _context.Users.Include(w => w.workoutsContributed).FirstOrDefaultAsync(p => p.UserId == id);
@@ -108,7 +109,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpGet("Programs")]
-        public async Task<ActionResult<IEnumerable<ProgramReadDTO>>> userPrograms()
+        public async Task<ActionResult<IEnumerable<ProgramReadDTO>>> UserPrograms()
         {
             int id = GetIdentity().CurrentUserId(_context);
             var user = await _context.Users.Include(w => w.programsContributed).FirstOrDefaultAsync(p => p.UserId == id);
@@ -124,7 +125,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpGet("Goals")]
-        public async Task<ActionResult<IEnumerable<GoalReadDTO>>> userGoals()
+        public async Task<ActionResult<IEnumerable<GoalReadDTO>>> UserGoals()
         {
             int id = GetIdentity().CurrentUserId(_context);
             var user = await _context.Users.Include(w => w.userGoals).FirstOrDefaultAsync(p => p.UserId == id);
@@ -137,6 +138,18 @@ namespace Infrastructure.Controllers
             }
 
             return _mapper.Map<List<GoalReadDTO>>(goals);
+        }
+
+        [HttpGet("Profile")]
+        public async Task<ActionResult<Profile>> GetProfile()
+        {
+            var id = GetIdentity().CurrentUserId(_context);
+            var user = await _context.Users.Include(u => u.Profile)
+                .FirstOrDefaultAsync(u => u.UserId == id);
+
+            var profile = user?.Profile;
+
+            return _mapper.Map<Profile>(profile);
         }
 
         private IEnumerable<Claim> GetIdentity()

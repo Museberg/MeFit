@@ -45,7 +45,7 @@ builder.Services.AddDbContext<MeFitDbContext>(options =>
 
     if (connectionUrl is null)
     {
-        options.UseNpgsql("whatever");
+        options.UseNpgsql("Data Source=localhost;Initial Catalog=MeFitDB;User ID=sa;Password=#Gullwing1;Trust Server Certificate=True");
         options.EnableSensitiveDataLogging();
         return;
     }
