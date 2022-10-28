@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MeFitDbContext))]
-    [Migration("20221024104824_InitialDb")]
+    [Migration("20221028231506_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,15 +26,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("ExerciseWorkout", b =>
                 {
-                    b.Property<int>("ExercisesExerciseId")
+                    b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("WorkoutsWorkoutId")
+                    b.Property<int>("WorkoutId")
                         .HasColumnType("integer");
 
-                    b.HasKey("ExercisesExerciseId", "WorkoutsWorkoutId");
+                    b.HasKey("ExerciseId", "WorkoutId");
 
-                    b.HasIndex("WorkoutsWorkoutId");
+                    b.HasIndex("WorkoutId");
 
                     b.ToTable("ExerciseWorkout");
                 });
@@ -70,12 +70,15 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ExerciseId"));
 
+                    b.Property<int>("ContributorUserId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("character varying(2048)");
 
-                    b.Property<double>("DistanceInKm")
+                    b.Property<double?>("DistanceInKm")
                         .HasColumnType("double precision");
 
                     b.Property<string>("ImageLink")
@@ -91,10 +94,10 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int>("Repetitions")
+                    b.Property<int?>("Repetitions")
                         .HasColumnType("integer");
 
-                    b.Property<double>("Seconds")
+                    b.Property<double?>("Seconds")
                         .HasColumnType("double precision");
 
                     b.Property<int>("Type")
@@ -105,6 +108,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("ExerciseId");
+
+                    b.HasIndex("ContributorUserId");
 
                     b.ToTable("Exercises");
                 });
@@ -123,7 +128,7 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsAchieved")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("ProfileId")
+                    b.Property<int?>("ProfileId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ProgramId")
@@ -132,12 +137,17 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("StartingDate")
                         .HasColumnType("date");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("GoalId");
 
                     b.HasIndex("ProfileId");
 
                     b.HasIndex("ProgramId")
                         .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Goals");
                 });
@@ -183,7 +193,10 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProgramId"));
 
-                    b.Property<string>("Category")
+                    b.Property<int>("ContributorUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -192,6 +205,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("ProgramId");
+
+                    b.HasIndex("ContributorUserId");
 
                     b.ToTable("Programs");
                 });
@@ -237,6 +252,15 @@ namespace Infrastructure.Migrations
                     b.Property<int>("ContributorUserId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
+
                     b.HasKey("WorkoutId");
 
                     b.HasIndex("ContributorUserId");
@@ -246,15 +270,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("ProgramWorkout", b =>
                 {
-                    b.Property<int>("ProgramsProgramId")
+                    b.Property<int>("ProgramId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("WorkoutsWorkoutId")
+                    b.Property<int>("WorkoutId")
                         .HasColumnType("integer");
 
-                    b.HasKey("ProgramsProgramId", "WorkoutsWorkoutId");
+                    b.HasKey("ProgramId", "WorkoutId");
 
-                    b.HasIndex("WorkoutsWorkoutId");
+                    b.HasIndex("WorkoutId");
 
                     b.ToTable("ProgramWorkout");
                 });
@@ -263,15 +287,17 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Infrastructure.Models.Domain.Exercise", null)
                         .WithMany()
-                        .HasForeignKey("ExercisesExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("FK_ExerciseWorkout_Exercises_WorkoutId");
 
                     b.HasOne("Infrastructure.Models.Domain.Workout", null)
                         .WithMany()
-                        .HasForeignKey("WorkoutsWorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkoutId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("FK_ExerciseWorkout_Workouts_ExerciseId");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.CompletedWorkout", b =>
@@ -293,13 +319,22 @@ namespace Infrastructure.Migrations
                     b.Navigation("Workout");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Domain.Goal", b =>
+            modelBuilder.Entity("Infrastructure.Models.Domain.Exercise", b =>
                 {
-                    b.HasOne("Infrastructure.Models.Domain.Profile", "Profile")
-                        .WithMany("Goals")
-                        .HasForeignKey("ProfileId")
+                    b.HasOne("Infrastructure.Models.Domain.User", "Contributor")
+                        .WithMany("ExercisesContributed")
+                        .HasForeignKey("ContributorUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Contributor");
+                });
+
+            modelBuilder.Entity("Infrastructure.Models.Domain.Goal", b =>
+                {
+                    b.HasOne("Infrastructure.Models.Domain.Profile", null)
+                        .WithMany("Goals")
+                        .HasForeignKey("ProfileId");
 
                     b.HasOne("Infrastructure.Models.Domain.Program", "Program")
                         .WithOne("Goal")
@@ -307,9 +342,15 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Profile");
+                    b.HasOne("Infrastructure.Models.Domain.User", "User")
+                        .WithMany("UserGoals")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Program");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>
@@ -323,10 +364,21 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Infrastructure.Models.Domain.Program", b =>
+                {
+                    b.HasOne("Infrastructure.Models.Domain.User", "Contributor")
+                        .WithMany("ProgramsContributed")
+                        .HasForeignKey("ContributorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contributor");
+                });
+
             modelBuilder.Entity("Infrastructure.Models.Domain.Workout", b =>
                 {
                     b.HasOne("Infrastructure.Models.Domain.User", "Contributor")
-                        .WithMany("Contributed")
+                        .WithMany("WorkoutsContributed")
                         .HasForeignKey("ContributorUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -338,15 +390,17 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Infrastructure.Models.Domain.Program", null)
                         .WithMany()
-                        .HasForeignKey("ProgramsProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProgramId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("FK_ProgramWorkout_Programs_WorkoutId");
 
                     b.HasOne("Infrastructure.Models.Domain.Workout", null)
                         .WithMany()
-                        .HasForeignKey("WorkoutsWorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkoutId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("FK_ProgramWorkout_Workouts_ProgramId");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>
@@ -362,10 +416,16 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Models.Domain.User", b =>
                 {
-                    b.Navigation("Contributed");
+                    b.Navigation("ExercisesContributed");
 
                     b.Navigation("Profile")
                         .IsRequired();
+
+                    b.Navigation("ProgramsContributed");
+
+                    b.Navigation("UserGoals");
+
+                    b.Navigation("WorkoutsContributed");
                 });
 #pragma warning restore 612, 618
         }

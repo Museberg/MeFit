@@ -24,15 +24,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("ExerciseWorkout", b =>
                 {
-                    b.Property<int>("ExercisesExerciseId")
+                    b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("WorkoutsWorkoutId")
+                    b.Property<int>("WorkoutId")
                         .HasColumnType("integer");
 
-                    b.HasKey("ExercisesExerciseId", "WorkoutsWorkoutId");
+                    b.HasKey("ExerciseId", "WorkoutId");
 
-                    b.HasIndex("WorkoutsWorkoutId");
+                    b.HasIndex("WorkoutId");
 
                     b.ToTable("ExerciseWorkout");
                 });
@@ -268,15 +268,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("ProgramWorkout", b =>
                 {
-                    b.Property<int>("ProgramsProgramId")
+                    b.Property<int>("ProgramId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("WorkoutsWorkoutId")
+                    b.Property<int>("WorkoutId")
                         .HasColumnType("integer");
 
-                    b.HasKey("ProgramsProgramId", "WorkoutsWorkoutId");
+                    b.HasKey("ProgramId", "WorkoutId");
 
-                    b.HasIndex("WorkoutsWorkoutId");
+                    b.HasIndex("WorkoutId");
 
                     b.ToTable("ProgramWorkout");
                 });
@@ -285,15 +285,17 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Infrastructure.Models.Domain.Exercise", null)
                         .WithMany()
-                        .HasForeignKey("ExercisesExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("FK_ExerciseWorkout_Exercises_WorkoutId");
 
                     b.HasOne("Infrastructure.Models.Domain.Workout", null)
                         .WithMany()
-                        .HasForeignKey("WorkoutsWorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkoutId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("FK_ExerciseWorkout_Workouts_ExerciseId");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.CompletedWorkout", b =>
@@ -318,7 +320,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Models.Domain.Exercise", b =>
                 {
                     b.HasOne("Infrastructure.Models.Domain.User", "Contributor")
-                        .WithMany("exercisesContributed")
+                        .WithMany("ExercisesContributed")
                         .HasForeignKey("ContributorUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -339,9 +341,9 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Infrastructure.Models.Domain.User", "User")
-                        .WithMany("userGoals")
+                        .WithMany("UserGoals")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Program");
@@ -363,7 +365,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Models.Domain.Program", b =>
                 {
                     b.HasOne("Infrastructure.Models.Domain.User", "Contributor")
-                        .WithMany("programsContributed")
+                        .WithMany("ProgramsContributed")
                         .HasForeignKey("ContributorUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -374,7 +376,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Models.Domain.Workout", b =>
                 {
                     b.HasOne("Infrastructure.Models.Domain.User", "Contributor")
-                        .WithMany("workoutsContributed")
+                        .WithMany("WorkoutsContributed")
                         .HasForeignKey("ContributorUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -386,15 +388,17 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Infrastructure.Models.Domain.Program", null)
                         .WithMany()
-                        .HasForeignKey("ProgramsProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProgramId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("FK_ProgramWorkout_Programs_WorkoutId");
 
                     b.HasOne("Infrastructure.Models.Domain.Workout", null)
                         .WithMany()
-                        .HasForeignKey("WorkoutsWorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkoutId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("FK_ProgramWorkout_Workouts_ProgramId");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>
@@ -410,16 +414,16 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Models.Domain.User", b =>
                 {
+                    b.Navigation("ExercisesContributed");
+
                     b.Navigation("Profile")
                         .IsRequired();
 
-                    b.Navigation("exercisesContributed");
+                    b.Navigation("ProgramsContributed");
 
-                    b.Navigation("programsContributed");
+                    b.Navigation("UserGoals");
 
-                    b.Navigation("userGoals");
-
-                    b.Navigation("workoutsContributed");
+                    b.Navigation("WorkoutsContributed");
                 });
 #pragma warning restore 612, 618
         }
