@@ -160,6 +160,7 @@ public class FakeData
             .StrictMode(false)
             .RuleFor(w => w.WorkoutId, f => 0)
             .RuleFor(w => w.Name, f => f.Lorem.Word())
+            .RuleFor(w => w.Description, f => f.Lorem.Sentence())
             .RuleFor(w => w.Exercises, f => f.PickRandom(mixedExercises, 2).ToList())
             .RuleFor(w => w.Contributor, f => f.PickRandom(Users));
 
@@ -170,7 +171,7 @@ public class FakeData
             .StrictMode(false)
             .RuleFor(p => p.ProgramId, f => 0)
             .RuleFor(p => p.Name, f => f.Lorem.Sentence(3))
-            .RuleFor(p => p.Category, f => f.Lorem.Sentence(wordCount: 3))
+            .RuleFor(p => p.Description, f => f.Lorem.Sentence())
             .RuleFor(p => p.Workouts, f => new List<Workout>{ f.PickRandom(fakeWorkoutsList), f.PickRandom(fakeWorkoutsList)})
             .RuleFor(p => p.Contributor, f => f.PickRandom(Users));
 
