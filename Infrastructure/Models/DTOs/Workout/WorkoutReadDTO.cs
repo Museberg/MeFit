@@ -16,6 +16,7 @@ namespace Infrastructure.DTOs.Workout
         /// <example>false</example>
         /// 
         public string Name { get; set; }
+        public string Description { get; set; }
         public ICollection<Exercise> Exercises { get; set; }
         public ICollection<Models.Domain.Program> Programs { get; set; }
     }

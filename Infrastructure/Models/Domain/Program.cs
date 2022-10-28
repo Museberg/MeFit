@@ -9,7 +9,7 @@ public class Program
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ProgramId { get; set; }
     public string Name { get; set; }
-    public string Category { get; set; }
+    public string Description { get; set; }
     // Relations
     public ICollection<Workout> Workouts { get; set; }
     public Goal Goal { get; set; }

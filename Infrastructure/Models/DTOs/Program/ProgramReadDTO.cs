@@ -19,7 +19,7 @@ namespace Infrastructure.DTOs.Program
         /// Program category.
         /// </summary>
         /// <example></example>
-        public string Category { get; set; }
+        public string Description { get; set; }
         /// <summary>
         /// List of workout types assiated with program
         /// </summary>

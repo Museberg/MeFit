@@ -11,7 +11,7 @@
         /// Program category.
         /// </summary>
         /// <example></example>
-        public string Category { get; set; }
+        public string Description { get; set; }
         public ICollection<Models.Domain.Workout> Workouts { get; set; }
     }
 }

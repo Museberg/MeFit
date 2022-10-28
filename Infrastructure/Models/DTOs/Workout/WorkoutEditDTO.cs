@@ -11,5 +11,6 @@ namespace Infrastructure.DTOs.Workout
         /// <example>false</example>
         /// 
         public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -11,6 +11,7 @@ public class Workout
 
     [MaxLength(30)]
     public string Name { get; set; }
+    public string Description { get; set; }
 
     // Relations
     public ICollection<Exercise> Exercises { get; set; }
