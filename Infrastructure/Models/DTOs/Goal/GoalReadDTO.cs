@@ -24,14 +24,11 @@ namespace Infrastructure.DTOs.Goal
         /// Has the goal been completed=
         /// </summary>
         /// <exmaple>true</exmaple>
-        public bool IsAchieved { get; set; }
-
+        public ICollection<bool> IsAchieved { get; set; }
         /// <summary>
         /// List of program names
         /// </summary>
         /// <exmaple>[Upper body training, Tap dancing class]</exmaple>
         public Models.Domain.Program Program { get; set; }
-        public Models.Domain.Profile Profile { get; set; }
-
     }
 }

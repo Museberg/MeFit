@@ -18,6 +18,6 @@ namespace Infrastructure.DTOs.Goal
         /// Has the goal been completed=
         /// </summary>
         /// <exmaple>true</exmaple>
-        public bool IsAchieved { get; set; }
+        public ICollection<bool> IsAchieved { get; set; }
     }
 }
