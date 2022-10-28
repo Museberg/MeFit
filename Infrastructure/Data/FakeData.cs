@@ -172,7 +172,7 @@ public class FakeData
             .RuleFor(p => p.ProgramId, f => 0)
             .RuleFor(p => p.Name, f => f.Lorem.Sentence(3))
             .RuleFor(p => p.Description, f => f.Lorem.Sentence())
-            .RuleFor(p => p.Workouts, f => f.PickRandom(fakeWorkoutsList, 2))
+            .RuleFor(p => p.Workouts, f => f.PickRandom(fakeWorkoutsList, 2).ToList())
             .RuleFor(p => p.Contributor, f => f.PickRandom(Users));
 
         var fakeProgramsList = fakePrograms.Generate(10);
