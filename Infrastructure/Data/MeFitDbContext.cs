@@ -55,6 +55,7 @@ public class MeFitDbContext : DbContext
                     .ToList()
             ).Metadata.SetValueComparer(valueComparer);
 
+        
         builder.Entity<CompletedWorkout>()
             .HasOne(c => c.Profile)
             .WithMany()
@@ -63,6 +64,47 @@ public class MeFitDbContext : DbContext
             .HasOne(c => c.Workout)
             .WithMany()
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<Goal>()
+            .HasOne(g => g.User)
+            .WithMany(u => u.UserGoals)
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        // Fixing some cascading with many-to-many relationship
+        builder.Entity<Exercise>()
+            .HasMany(p => p.Workouts)
+            .WithMany(p => p.Exercises)
+            .UsingEntity<Dictionary<string, object>>(
+                "ExerciseWorkout",
+                j => j
+                    .HasOne<Workout>()
+                    .WithMany()
+                    .HasForeignKey("WorkoutId")
+                    .HasConstraintName("FK_ExerciseWorkout_Workouts_ExerciseId")
+                    .OnDelete(DeleteBehavior.NoAction),
+                j => j
+                    .HasOne<Exercise>()
+                    .WithMany()
+                    .HasForeignKey("ExerciseId")
+                    .HasConstraintName("FK_ExerciseWorkout_Exercises_WorkoutId")
+                    .OnDelete(DeleteBehavior.NoAction));
+        builder.Entity<Models.Domain.Program>()
+            .HasMany(p => p.Workouts)
+            .WithMany(p => p.Programs)
+            .UsingEntity<Dictionary<string, object>>(
+                "ProgramWorkout",
+                j => j
+                    .HasOne<Workout>()
+                    .WithMany()
+                    .HasForeignKey("WorkoutId")
+                    .HasConstraintName("FK_ProgramWorkout_Workouts_ProgramId")
+                    .OnDelete(DeleteBehavior.NoAction),
+                j => j
+                    .HasOne<Models.Domain.Program>()
+                    .WithMany()
+                    .HasForeignKey("ProgramId")
+                    .HasConstraintName("FK_ProgramWorkout_Programs_WorkoutId")
+                    .OnDelete(DeleteBehavior.NoAction));
 
 
     }
