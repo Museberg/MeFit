@@ -18,6 +18,5 @@ namespace Infrastructure.DTOs.Workout
         public string Name { get; set; }
         public ICollection<Exercise> Exercises { get; set; }
         public ICollection<Models.Domain.Program> Programs { get; set; }
-        public Models.Domain.User Contributor { get; set; }
     }
 }
