@@ -183,8 +183,7 @@ public class FakeData
             .RuleFor(g => g.StartingDate, f => f.Date.PastDateOnly(1, constantDateOnly))
             .RuleFor(g => g.EndDate, f => f.Date.FutureDateOnly(1, constantDateOnly))
             .RuleFor(g => g.IsAchieved, Random.Next(100) <= 60)
-            .RuleFor(g => g.Program, f => f.PickRandom(fakeProgramsList))
-            .RuleFor(g => g.User, f => f.PickRandom(Users));
+            .RuleFor(g => g.Program, f => f.PickRandom(fakeProgramsList));
 
         var fakeProfiles = new Faker<Profile>()
             .StrictMode(true)
