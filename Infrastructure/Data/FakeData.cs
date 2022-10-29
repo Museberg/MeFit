@@ -176,25 +176,30 @@ public class FakeData
             .RuleFor(p => p.Contributor, f => f.PickRandom(Users));
 
         var fakeProgramsList = fakePrograms.Generate(10);
-
+        
+        var fakeCompletedWorkouts = new Faker<CompletedWorkout>()
+            .RuleFor(cw => cw.CompletedWorkoutId, 0)
+            .RuleFor(cw => cw.Workout, f => f.PickRandom(fakeProgramsList).Workouts.First());
+        
         var fakeGoals = new Faker<Goal>()
             .StrictMode(false)
             .RuleFor(g => g.GoalId, f => 0)
             .RuleFor(g => g.StartingDate, f => f.Date.PastDateOnly(1, constantDateOnly))
             .RuleFor(g => g.EndDate, f => f.Date.FutureDateOnly(1, constantDateOnly))
-            .RuleFor(g => g.IsAchieved, Random.Next(100) <= 60)
-            .RuleFor(g => g.Program, f => f.PickRandom(fakeProgramsList));
-
+            .RuleFor(g => g.Program, f => f.PickRandom(fakeProgramsList))
+            .RuleFor(g => g.CompletedWorkouts, f => fakeCompletedWorkouts.Generate(4));
+        
         var fakeProfiles = new Faker<Profile>()
-            .StrictMode(true)
+            .StrictMode(false)
             .RuleFor(p => p.ProfileId, f => 0)
             .RuleFor(p => p.User, f => f.PickRandom(Users))
+            .RuleFor(p => p.Goals, f => fakeGoals.Generate(5))
             .RuleFor(p => p.Disabilities, f => f.Lorem.Sentence())
             .RuleFor(p => p.MedicalConditions, f => f.Lorem.Sentence())
-            .RuleFor(p => p.Goals, f => fakeGoals.Generate(f.Random.Number(4) + 1))
             .RuleFor(p => p.Height, f => f.Random.Double(0.1, 0.2) * 1000) // Height between 100-200 cm
             .RuleFor(p => p.Weight, f => f.Random.Double(0.05, 0.15) * 1000); // Weight between 50-150 kg
-        
+
+
         Profiles = fakeProfiles.Generate(count);
     }
 }

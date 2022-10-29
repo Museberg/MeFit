@@ -57,10 +57,6 @@ public class MeFitDbContext : DbContext
 
         
         builder.Entity<CompletedWorkout>()
-            .HasOne(c => c.Profile)
-            .WithMany()
-            .OnDelete(DeleteBehavior.NoAction);
-        builder.Entity<CompletedWorkout>()
             .HasOne(c => c.Workout)
             .WithMany()
             .OnDelete(DeleteBehavior.NoAction);
@@ -83,6 +79,7 @@ public class MeFitDbContext : DbContext
                     .HasForeignKey("ExerciseId")
                     .HasConstraintName("FK_ExerciseWorkout_Exercises_WorkoutId")
                     .OnDelete(DeleteBehavior.NoAction));
+        
         builder.Entity<Models.Domain.Program>()
             .HasMany(p => p.Workouts)
             .WithMany(p => p.Programs)
