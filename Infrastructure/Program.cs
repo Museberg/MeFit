@@ -26,7 +26,8 @@ builder.Services.AddCors(options =>
                       });
 });
 
-builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
