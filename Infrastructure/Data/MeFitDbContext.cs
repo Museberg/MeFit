@@ -56,9 +56,19 @@ public class MeFitDbContext : DbContext
             ).Metadata.SetValueComparer(valueComparer);
 
         
+        builder.Entity<Goal>()
+            .HasOne(c => c.Program)
+            .WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
+        
         builder.Entity<CompletedWorkout>()
             .HasOne(c => c.Workout)
             .WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<Models.Domain.Program>()
+            .HasOne(p => p.Contributor)
+            .WithMany(c => c.ProgramsContributed)
             .OnDelete(DeleteBehavior.NoAction);
 
         // Fixing some cascading with many-to-many relationship
