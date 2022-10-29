@@ -19,6 +19,5 @@ namespace Infrastructure.Models.Domain
         public ICollection<Workout> WorkoutsContributed { get; set; }
         public ICollection<Exercise> ExercisesContributed { get; set; }
         public ICollection<Program> ProgramsContributed { get; set; }
-        public ICollection<Goal> UserGoals { get; set; }
     }
 }
