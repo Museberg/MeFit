@@ -175,19 +175,20 @@ public class FakeData
             .RuleFor(p => p.Workouts, f => f.PickRandom(fakeWorkoutsList, 2).ToList())
             .RuleFor(p => p.Contributor, f => f.PickRandom(Users));
 
-        var fakeProgramsList = fakePrograms.Generate(10);
+        var fakeProgramsList = fakePrograms.Generate(count);
         
         var fakeCompletedWorkouts = new Faker<CompletedWorkout>()
             .RuleFor(cw => cw.CompletedWorkoutId, 0)
             .RuleFor(cw => cw.Workout, f => f.PickRandom(fakeProgramsList).Workouts.First());
-        
+
         var fakeGoals = new Faker<Goal>()
             .StrictMode(false)
             .RuleFor(g => g.GoalId, f => 0)
             .RuleFor(g => g.StartingDate, f => f.Date.PastDateOnly(1, constantDateOnly))
             .RuleFor(g => g.EndDate, f => f.Date.FutureDateOnly(1, constantDateOnly))
             .RuleFor(g => g.Program, f => f.PickRandom(fakeProgramsList))
-            .RuleFor(g => g.CompletedWorkouts, f => fakeCompletedWorkouts.Generate(4));
+            .RuleFor(g => g.CompletedWorkouts, f => fakeCompletedWorkouts.Generate(2));
+        
         
         var fakeProfiles = new Faker<Profile>()
             .StrictMode(false)

@@ -9,6 +9,9 @@ public class CompletedWorkout
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int CompletedWorkoutId { get; set; }
     
-    [Key, ForeignKey("WorkoutId")]
     public Workout Workout { get; set; }
+
+    public Goal Goal { get; set; }
+    
+    
 }

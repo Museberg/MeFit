@@ -6,7 +6,7 @@ public class DbInitializer
 {
     public static void Initialize(MeFitDbContext context)
     {
-        const int profilesToFake = 20;
+        const int profilesToFake = 30;
         context.Database.EnsureCreated();
 
         if (context.Profiles.Count() < profilesToFake)

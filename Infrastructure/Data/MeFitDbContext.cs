@@ -54,12 +54,7 @@ public class MeFitDbContext : DbContext
                     .Cast<MuscleEnum>()
                     .ToList()
             ).Metadata.SetValueComparer(valueComparer);
-
         
-        builder.Entity<Goal>()
-            .HasOne(c => c.Program)
-            .WithMany()
-            .OnDelete(DeleteBehavior.NoAction);
         
         builder.Entity<CompletedWorkout>()
             .HasOne(c => c.Workout)

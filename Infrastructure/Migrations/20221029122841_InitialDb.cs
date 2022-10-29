@@ -78,6 +78,26 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Programs",
+                columns: table => new
+                {
+                    ProgramId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    ContributorUserId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Programs", x => x.ProgramId);
+                    table.ForeignKey(
+                        name: "FK_Programs_Users_ContributorUserId",
+                        column: x => x.ContributorUserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Workouts",
                 columns: table => new
                 {
@@ -95,6 +115,34 @@ namespace Infrastructure.Migrations
                         column: x => x.ContributorUserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Goals",
+                columns: table => new
+                {
+                    GoalId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    StartingDate = table.Column<DateTime>(type: "date", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "date", nullable: false),
+                    ProgramId = table.Column<int>(type: "integer", nullable: false),
+                    ProfileId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Goals", x => x.GoalId);
+                    table.ForeignKey(
+                        name: "FK_Goals_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
+                        principalColumn: "ProfileId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Goals_Programs_ProgramId",
+                        column: x => x.ProgramId,
+                        principalTable: "Programs",
+                        principalColumn: "ProgramId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -121,72 +169,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CompletedWorkouts",
-                columns: table => new
-                {
-                    CompletedWorkoutId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    WorkoutId = table.Column<int>(type: "integer", nullable: false),
-                    GoalId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CompletedWorkouts", x => x.CompletedWorkoutId);
-                    table.ForeignKey(
-                        name: "FK_CompletedWorkouts_Workouts_WorkoutId",
-                        column: x => x.WorkoutId,
-                        principalTable: "Workouts",
-                        principalColumn: "WorkoutId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Goals",
-                columns: table => new
-                {
-                    GoalId = table.Column<int>(type: "integer", nullable: false),
-                    StartingDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    ProfileId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Goals", x => x.GoalId);
-                    table.ForeignKey(
-                        name: "FK_Goals_Profiles_ProfileId",
-                        column: x => x.ProfileId,
-                        principalTable: "Profiles",
-                        principalColumn: "ProfileId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Programs",
-                columns: table => new
-                {
-                    ProgramId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    GoalId = table.Column<int>(type: "integer", nullable: false),
-                    ContributorUserId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Programs", x => x.ProgramId);
-                    table.ForeignKey(
-                        name: "FK_Programs_Goals_GoalId",
-                        column: x => x.GoalId,
-                        principalTable: "Goals",
-                        principalColumn: "GoalId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Programs_Users_ContributorUserId",
-                        column: x => x.ContributorUserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProgramWorkout",
                 columns: table => new
                 {
@@ -203,6 +185,31 @@ namespace Infrastructure.Migrations
                         principalColumn: "ProgramId");
                     table.ForeignKey(
                         name: "FK_ProgramWorkout_Workouts_ProgramId",
+                        column: x => x.WorkoutId,
+                        principalTable: "Workouts",
+                        principalColumn: "WorkoutId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CompletedWorkouts",
+                columns: table => new
+                {
+                    CompletedWorkoutId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    WorkoutId = table.Column<int>(type: "integer", nullable: false),
+                    GoalId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompletedWorkouts", x => x.CompletedWorkoutId);
+                    table.ForeignKey(
+                        name: "FK_CompletedWorkouts_Goals_GoalId",
+                        column: x => x.GoalId,
+                        principalTable: "Goals",
+                        principalColumn: "GoalId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CompletedWorkouts_Workouts_WorkoutId",
                         column: x => x.WorkoutId,
                         principalTable: "Workouts",
                         principalColumn: "WorkoutId");
@@ -234,6 +241,12 @@ namespace Infrastructure.Migrations
                 column: "ProfileId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Goals_ProgramId",
+                table: "Goals",
+                column: "ProgramId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Profiles_UserId",
                 table: "Profiles",
                 column: "UserId",
@@ -245,11 +258,6 @@ namespace Infrastructure.Migrations
                 column: "ContributorUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Programs_GoalId",
-                table: "Programs",
-                column: "GoalId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProgramWorkout_WorkoutId",
                 table: "ProgramWorkout",
                 column: "WorkoutId");
@@ -258,28 +266,10 @@ namespace Infrastructure.Migrations
                 name: "IX_Workouts_ContributorUserId",
                 table: "Workouts",
                 column: "ContributorUserId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CompletedWorkouts_Goals_GoalId",
-                table: "CompletedWorkouts",
-                column: "GoalId",
-                principalTable: "Goals",
-                principalColumn: "GoalId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Goals_Programs_GoalId",
-                table: "Goals",
-                column: "GoalId",
-                principalTable: "Programs",
-                principalColumn: "ProgramId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Programs_Goals_GoalId",
-                table: "Programs");
-
             migrationBuilder.DropTable(
                 name: "CompletedWorkouts");
 
@@ -290,13 +280,13 @@ namespace Infrastructure.Migrations
                 name: "ProgramWorkout");
 
             migrationBuilder.DropTable(
+                name: "Goals");
+
+            migrationBuilder.DropTable(
                 name: "Exercises");
 
             migrationBuilder.DropTable(
                 name: "Workouts");
-
-            migrationBuilder.DropTable(
-                name: "Goals");
 
             migrationBuilder.DropTable(
                 name: "Profiles");
