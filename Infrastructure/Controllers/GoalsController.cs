@@ -44,6 +44,7 @@ namespace Infrastructure.Controllers
         public async Task<ActionResult<int>> PostGoal([FromBody] GoalCreateDTO goalDTO)
         {
             Goal goal = _mapper.Map<Goal>(goalDTO);
+            goal.Profile = await _context.Profiles.FirstOrDefaultAsync(p => p.ProfileId == goal.Profile.ProfileId);
 
             try
             {
