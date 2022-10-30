@@ -128,7 +128,7 @@ namespace Infrastructure.Controllers
         public async Task<ActionResult<IEnumerable<GoalReadDTO>>> UserGoals()
         {
             int id = GetIdentity().CurrentUserId(_context);
-            var user = await _context.Users.Include(u => u.Profile).ThenInclude(p => p.Goals).include(g => g.Program)
+            var user = await _context.Users.Include(u => u.Profile).ThenInclude(p => p.Goals).ThenInclude(g => g.Program)
                 .FirstOrDefaultAsync(p => p.UserId == id);
 
             List<Goal> goals = new List<Goal>();
