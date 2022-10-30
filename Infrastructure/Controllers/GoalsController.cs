@@ -41,7 +41,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> PostGoal([FromBody] GoalCreateDTO goalDTO)
+        public async Task<ActionResult<Goal>> PostGoal([FromBody] GoalCreateDTO goalDTO)
         {
             Goal goal = _mapper.Map<Goal>(goalDTO);
 
@@ -52,10 +52,10 @@ namespace Infrastructure.Controllers
 
             } catch
             {
-                return BadRequest();
+                return goal;
             }
 
-            return goal.GoalId;
+            return goal;
         }
 
         [HttpPut("{id}")]
