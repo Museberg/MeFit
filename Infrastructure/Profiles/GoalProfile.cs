@@ -15,9 +15,9 @@ namespace Infrastructure.Profiles
                 .MapFrom(src => src.EndDate.ToString()));
             CreateMap<GoalCreateDTO, Goal>()
                 .ForMember(dest => dest.StartingDate, opt => opt
-                .MapFrom(src => DateOnly.Parse(src.StartingDate, new CultureInfo("en-GB"), DateTimeStyles.None)))
+                .MapFrom(src => DateOnly.Parse(src.StartingDate)))
                 .ForMember(dest => dest.EndDate, opt => opt
-                .MapFrom(src => DateOnly.Parse(src.EndDate, new CultureInfo("en-GB"), DateTimeStyles.None)));
+                .MapFrom(src => DateOnly.Parse(src.EndDate)));
             CreateMap<GoalEditDTO, Goal>();
         }
     }
