@@ -41,7 +41,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GoalCreateDTO>> PostGoal(GoalCreateDTO goalDTO)
+        public async Task<ActionResult<GoalCreateDTO>> PostGoal([FromBody] GoalCreateDTO goalDTO)
         {
             Goal goal = _mapper.Map<Goal>(goalDTO);
 
