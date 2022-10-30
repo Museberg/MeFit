@@ -23,7 +23,7 @@ namespace Infrastructure.Profiles
                 .ForMember(dest => dest.CompletedWorkouts, opt => opt
                     .MapFrom(src => new List<CompletedWorkout>()))
                 .ForMember(dest => dest.Program, opt => opt
-                    .MapFrom(src => new Program()));
+                    .MapFrom(src => new Models.Domain.Program()));
             CreateMap<GoalEditDTO, Goal>();
         }
     }
