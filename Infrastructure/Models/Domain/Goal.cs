@@ -8,8 +8,8 @@ public class Goal
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int GoalId { get; set; }
-    public DateOnly StartingDate { get; set; }
-    public DateOnly EndDate { get; set; }
+    public string StartingDate { get; set; }
+    public string EndDate { get; set; }
     public ICollection<CompletedWorkout> CompletedWorkouts { get; set; }
     [ForeignKey("ProgramId")]
     public Program Program { get; set; }
