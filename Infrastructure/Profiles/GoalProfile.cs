@@ -21,7 +21,9 @@ namespace Infrastructure.Profiles
                 .ForMember(dest => dest.EndDate, opt => opt
                     .MapFrom(src => DateOnly.ParseExact(src.EndDate, format)))
                 .ForMember(dest => dest.CompletedWorkouts, opt => opt
-                    .MapFrom(src => new List<CompletedWorkout>()));
+                    .MapFrom(src => new List<CompletedWorkout>()))
+                .ForMember(dest => dest.Program, opt => opt
+                    .MapFrom(src => new Program()));
             CreateMap<GoalEditDTO, Goal>();
         }
     }
