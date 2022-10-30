@@ -8,11 +8,11 @@ namespace Infrastructure.DTOs.Goal
         /// Starting data of goal
         /// </summary>
         /// <exmaple>25-10-2022</exmaple>
-        public DateOnly StartingDate { get; set; }
+        public string StartingDate { get; set; }
         /// <summary>
         /// End day of goal
         /// </summary>
         /// <exmaple>01-11-2022</exmaple>
-        public DateOnly EndDate { get; set; }
+        public string EndDate { get; set; }
     }
 }
