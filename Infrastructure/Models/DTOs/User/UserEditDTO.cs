@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.DTOs.User
+﻿namespace Infrastructure.Models.DTOs.User
 {
     public class UserEditDTO
     {

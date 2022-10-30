@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Infrastructure.DTOs.Program;
+using Infrastructure.Models.DTOs.Program;
 
 
 namespace Infrastructure.Profiles

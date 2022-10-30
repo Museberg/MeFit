@@ -1,8 +1,8 @@
-﻿using Infrastructure.Models.Domain;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Infrastructure.Models.Domain;
 using Infrastructure.Models.Domain.Exercises;
 
-namespace Infrastructure.Models.DTOs.Exercises.ExerciseCreateDTO
+namespace Infrastructure.Models.DTOs.Exercises
 {
     public class ExerciseCreateDTO
     {

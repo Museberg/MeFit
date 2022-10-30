@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Data;
 using System.Security.Claims;
-using Infrastructure.DTOs.User;
 using Infrastructure.Models.Domain;
+using Infrastructure.Models.DTOs.User;
 
 namespace Infrastructure.Services
 {

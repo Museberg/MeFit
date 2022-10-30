@@ -1,5 +1,5 @@
-﻿using Infrastructure.DTOs.User;
-using Infrastructure.Models.Domain;
+﻿using Infrastructure.Models.Domain;
+using Infrastructure.Models.DTOs.User;
 
 namespace Infrastructure.Profiles
 {

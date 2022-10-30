@@ -9,7 +9,7 @@ using Infrastructure.Data;
 using Infrastructure.Models.Domain;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-using Infrastructure.DTOs.Goal;
+using Infrastructure.Models.DTOs.Goal;
 
 namespace Infrastructure.Controllers
 {

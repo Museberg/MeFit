@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Infrastructure.Services;
 using AutoMapper;
-using Infrastructure.DTOs.User;
-using Infrastructure.Models.DTOs.Exercises.ExerciseReadDTO;
-using Infrastructure.DTOs.Workout;
-using Infrastructure.DTOs.Program;
-using Infrastructure.DTOs.Goal;
+using Infrastructure.Models.DTOs.Exercises;
+using Infrastructure.Models.DTOs.Goal;
+using Infrastructure.Models.DTOs.Program;
+using Infrastructure.Models.DTOs.User;
+using Infrastructure.Models.DTOs.Workout;
 using Profile = Infrastructure.Models.Domain.Profile;
 
 namespace Infrastructure.Controllers

@@ -1,7 +1,7 @@
-﻿using Infrastructure.Models.Domain;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Infrastructure.Models.Domain;
 
-namespace Infrastructure.DTOs.Goal
+namespace Infrastructure.Models.DTOs.Goal
 {
     public class GoalReadDTO
     {

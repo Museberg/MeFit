@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Infrastructure.Models.Domain;
 
-namespace Infrastructure.DTOs.Workout
+namespace Infrastructure.Models.DTOs.Workout
 {
     public class WorkoutReadDTO
     {

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Infrastructure.DTOs.Workout
+﻿namespace Infrastructure.Models.DTOs.Workout
 {
     public class WorkoutEditDTO
     {

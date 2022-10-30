@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Infrastructure.DTOs.Goal
+﻿namespace Infrastructure.Models.DTOs.Goal
 {
     public class GoalEditDTO
     {
@@ -14,10 +12,5 @@ namespace Infrastructure.DTOs.Goal
         /// </summary>
         /// <exmaple>01-11-2022</exmaple>
         public DateOnly EndDate { get; set; }
-        /// <summary>
-        /// Has the goal been completed=
-        /// </summary>
-        /// <exmaple>true</exmaple>
-        public ICollection<bool> IsAchieved { get; set; }
     }
 }

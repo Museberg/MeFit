@@ -9,9 +9,9 @@ using Infrastructure.Data;
 using Infrastructure.Models.Domain;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-using Infrastructure.DTOs.Workout;
 using Microsoft.AspNetCore.Cors;
 using System.Security.Claims;
+using Infrastructure.Models.DTOs.Workout;
 using Infrastructure.Services;
 
 namespace Infrastructure.Controllers

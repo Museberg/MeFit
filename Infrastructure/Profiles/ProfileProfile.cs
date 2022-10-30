@@ -1,6 +1,6 @@
-﻿using Infrastructure.DTOs.Profile;
-using Profile = Infrastructure.Models.Domain.Profile;
+﻿using Profile = Infrastructure.Models.Domain.Profile;
 using Infrastructure.Models.Domain;
+using Infrastructure.Models.DTOs.Profile;
 
 namespace Infrastructure.Profiles
 {

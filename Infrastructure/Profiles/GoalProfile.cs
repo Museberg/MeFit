@@ -1,6 +1,6 @@
-﻿using Infrastructure.DTOs.Goal;
-using Infrastructure.Models.Domain;
+﻿using Infrastructure.Models.Domain;
 using System.Globalization;
+using Infrastructure.Models.DTOs.Goal;
 
 namespace Infrastructure.Profiles
 { 

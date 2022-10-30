@@ -9,12 +9,10 @@ using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Infrastructure.Models.Domain;
-using Infrastructure.Models.DTOs.Exercises.ExerciseReadDTO;
 using Infrastructure.Models.Domain.Exercises;
-using Infrastructure.Models.DTOs.Exercises.ExerciseCreateDTO;
-using Infrastructure.Models.DTOs.Exercises.ExerciseEditDTO;
 using Microsoft.AspNetCore.Cors;
 using System.Security.Claims;
+using Infrastructure.Models.DTOs.Exercises;
 using Infrastructure.Services;
 
 namespace Infrastructure.Controllers

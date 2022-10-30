@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.DTOs.Program
+﻿namespace Infrastructure.Models.DTOs.Program
 {
     public class ProgramEditDTO
     {

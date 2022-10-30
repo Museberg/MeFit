@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Infrastructure.Services;
 using AutoMapper;
-using Infrastructure.DTOs.Profile;
+using Infrastructure.Models.DTOs.Profile;
 
 namespace Infrastructure.Controllers
 {

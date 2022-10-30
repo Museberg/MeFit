@@ -1,6 +1,5 @@
-﻿
-using Infrastructure.DTOs.Workout;
-using Infrastructure.Models.Domain;
+﻿using Infrastructure.Models.Domain;
+using Infrastructure.Models.DTOs.Workout;
 using Profile = AutoMapper.Profile;
 
 namespace Infrastructure.Profiles

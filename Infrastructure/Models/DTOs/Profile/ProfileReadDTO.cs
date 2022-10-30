@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Infrastructure.DTOs.Profile
+﻿namespace Infrastructure.Models.DTOs.Profile
 {
     public class ProfileReadDTO
     {
