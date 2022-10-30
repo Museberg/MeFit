@@ -105,6 +105,36 @@ namespace Infrastructure.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}/program")]
+        public async Task<IActionResult> AddWorkouts(int id, [FromBody] List<int> programId)
+        {
+            Goal? goal = await _context.Goals.Include(t => t.Program).FirstOrDefaultAsync(s => s.GoalId == id);
+
+            if (goal == null)
+            {
+                return NotFound();
+            }
+
+            Models.Domain.Program program = await _context.Programs.FindAsync(programId);
+
+            if (program == null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                _context.Entry(program).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return NoContent();
+        }
+
         private bool GoalExists(int id)
         {
             return _context.Goals.Any(e => e.GoalId == id);

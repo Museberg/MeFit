@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Infrastructure.Models.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace Infrastructure.DTOs.Goal
 {
@@ -24,7 +25,7 @@ namespace Infrastructure.DTOs.Goal
         /// Has the goal been completed=
         /// </summary>
         /// <exmaple>true</exmaple>
-        public ICollection<bool> IsAchieved { get; set; }
+        public ICollection<CompletedWorkout> CompletedWorkouts { get; set; }
         /// <summary>
         /// List of program names
         /// </summary>
