@@ -44,8 +44,6 @@ namespace Infrastructure.Controllers
         public async Task<ActionResult<int>> PostGoal([FromBody] GoalCreateDTO goalDTO)
         {
             Goal goal = _mapper.Map<Goal>(goalDTO);
-            Console.WriteLine($"GoalId: {goal.GoalId}, ProgramId: {goal.Program.ProgramId}" +
-                              $"StartingDate: {goal.StartingDate}, End Date: {goal.EndDate}");
 
             try
             {

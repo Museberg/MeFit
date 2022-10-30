@@ -15,8 +15,6 @@ namespace Infrastructure.Models.DTOs.Goal
         /// <exmaple>01-11-2022</exmaple>
         public string EndDate { get; set; }
 
-        public int ProgramId { get; set; }
-
         public ICollection<CompletedWorkout> CompletedWorkouts { get; set; }
     }
 }
