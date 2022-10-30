@@ -11,7 +11,6 @@ public class Goal
     public DateOnly StartingDate { get; set; }
     public DateOnly EndDate { get; set; }
     public ICollection<CompletedWorkout> CompletedWorkouts { get; set; }
-    [ForeignKey("ProgramId")]
     public Program Program { get; set; }
     public Profile Profile { get; set; }
 }

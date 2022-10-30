@@ -12,6 +12,7 @@ public class Program
     public string Description { get; set; }
     // Relations
     public ICollection<Workout> Workouts { get; set; }
+    [ForeignKey("GoalId")]
     public Goal Goal { get; set; }
     public User Contributor { get; set; }
 }
