@@ -128,12 +128,12 @@ namespace Infrastructure.Controllers
         public async Task<ActionResult<IEnumerable<GoalReadDTO>>> UserGoals()
         {
             int id = GetIdentity().CurrentUserId(_context);
-            var profile = await _context.Profiles.Include(p => p.Goals)
-                .FirstOrDefaultAsync(p => p.User.UserId == id);
+            var user = await _context.Users.Include(u => u.Profile).ThenInclude(p => p.Goals)
+                .FirstOrDefaultAsync(p => p.UserId == id);
 
             List<Goal> goals = new List<Goal>();
 
-            foreach (var goal in profile.Goals)
+            foreach (var goal in user.Profile.Goals)
             {
                 goals.Add(goal);
             }
