@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MeFitDbContext))]
-    [Migration("20221029122841_InitialDb")]
+    [Migration("20221030193602_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,24 +122,18 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GoalId"));
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("ProfileId")
+                    b.Property<int?>("ProfileId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProgramId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("StartingDate")
+                    b.Property<DateTime?>("StartingDate")
                         .HasColumnType("date");
 
                     b.HasKey("GoalId");
 
                     b.HasIndex("ProfileId");
-
-                    b.HasIndex("ProgramId")
-                        .IsUnique();
 
                     b.ToTable("Goals");
                 });
@@ -185,20 +179,24 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProgramId"));
 
-                    b.Property<int>("ContributorUserId")
+                    b.Property<int?>("ContributorUserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("GoalId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ProgramId");
 
                     b.HasIndex("ContributorUserId");
+
+                    b.HasIndex("GoalId")
+                        .IsUnique();
 
                     b.ToTable("Programs");
                 });
@@ -326,19 +324,9 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Infrastructure.Models.Domain.Profile", "Profile")
                         .WithMany("Goals")
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Infrastructure.Models.Domain.Program", "Program")
-                        .WithOne("Goal")
-                        .HasForeignKey("Infrastructure.Models.Domain.Goal", "ProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProfileId");
 
                     b.Navigation("Profile");
-
-                    b.Navigation("Program");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>
@@ -357,10 +345,15 @@ namespace Infrastructure.Migrations
                     b.HasOne("Infrastructure.Models.Domain.User", "Contributor")
                         .WithMany("ProgramsContributed")
                         .HasForeignKey("ContributorUserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Infrastructure.Models.Domain.Goal", "Goal")
+                        .WithOne("Program")
+                        .HasForeignKey("Infrastructure.Models.Domain.Program", "GoalId");
 
                     b.Navigation("Contributor");
+
+                    b.Navigation("Goal");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Workout", b =>
@@ -394,17 +387,13 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Models.Domain.Goal", b =>
                 {
                     b.Navigation("CompletedWorkouts");
+
+                    b.Navigation("Program");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>
                 {
                     b.Navigation("Goals");
-                });
-
-            modelBuilder.Entity("Infrastructure.Models.Domain.Program", b =>
-                {
-                    b.Navigation("Goal")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.User", b =>

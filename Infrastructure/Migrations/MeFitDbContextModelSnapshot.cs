@@ -120,13 +120,13 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GoalId"));
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("ProfileId")
+                    b.Property<int?>("ProfileId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("StartingDate")
+                    b.Property<DateTime?>("StartingDate")
                         .HasColumnType("date");
 
                     b.HasKey("GoalId");
@@ -177,18 +177,16 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProgramId"));
 
-                    b.Property<int>("ContributorUserId")
+                    b.Property<int?>("ContributorUserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("GoalId")
+                    b.Property<int?>("GoalId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ProgramId");
@@ -324,9 +322,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Infrastructure.Models.Domain.Profile", "Profile")
                         .WithMany("Goals")
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProfileId");
 
                     b.Navigation("Profile");
                 });
@@ -347,14 +343,11 @@ namespace Infrastructure.Migrations
                     b.HasOne("Infrastructure.Models.Domain.User", "Contributor")
                         .WithMany("ProgramsContributed")
                         .HasForeignKey("ContributorUserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Infrastructure.Models.Domain.Goal", "Goal")
                         .WithOne("Program")
-                        .HasForeignKey("Infrastructure.Models.Domain.Program", "GoalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Infrastructure.Models.Domain.Program", "GoalId");
 
                     b.Navigation("Contributor");
 
@@ -393,8 +386,7 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("CompletedWorkouts");
 
-                    b.Navigation("Program")
-                        .IsRequired();
+                    b.Navigation("Program");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Domain.Profile", b =>
