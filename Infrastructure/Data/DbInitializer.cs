@@ -6,13 +6,13 @@ public class DbInitializer
 {
     public static void Initialize(MeFitDbContext context)
     {
-        const int profilesToFake = 30;
+        const int programsToFake = 30;
         context.Database.EnsureCreated();
 
-        if (context.Profiles.Count() < profilesToFake / 3)
+        if (context.Profiles.Count() < programsToFake / 3)
         {
-            FakeData.Init(profilesToFake);
-            context.Profiles.AddRange(FakeData.Profiles);
+            FakeData.Init(programsToFake);
+            context.Programs.AddRange(FakeData.Programs);
             
             context.SaveChanges();
         }
