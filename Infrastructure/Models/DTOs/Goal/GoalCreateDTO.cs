@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Infrastructure.Models.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace Infrastructure.DTOs.Goal
 {
@@ -14,5 +15,7 @@ namespace Infrastructure.DTOs.Goal
         /// </summary>
         /// <exmaple>01-11-2022</exmaple>
         public string EndDate { get; set; }
+
+        public ICollection<CompletedWorkout> CompletedWorkouts { get; set; }
     }
 }
