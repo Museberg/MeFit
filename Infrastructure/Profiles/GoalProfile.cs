@@ -8,7 +8,7 @@ namespace Infrastructure.Profiles
     {
         public GoalProfile()
         {
-            var format = "dd/DD/yyyy";   
+            var format = "dd/MM/yyyy";   
             
             CreateMap<Goal, GoalReadDTO>()
                 .ForMember(dest => dest.StartingDate, opt => opt
