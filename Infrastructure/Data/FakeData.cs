@@ -17,6 +17,7 @@ public class FakeData
     {
         Randomizer.Seed = new Random(Seed);
         DateOnly constantDateOnly = new DateOnly(2022, 10, 10);
+        
         // Exercises and list of musclegroups
         var repExerciseMuscleGroupsDict = new Dictionary<string, List<MuscleEnum>>
         {
@@ -100,7 +101,8 @@ public class FakeData
             "https://www.youtube.com/watch?v=kYsA9-Qbtyk&list=PLD-MFRMx69csS6yj3LpSBGN1dGJel7Evc&index=9",
         };
         
-        var fakeUsers = new Faker<User>()
+
+        var newUsers = new Faker<User>()
             .StrictMode(false)
             .RuleFor(u => u.KeycloakId, f => Guid.Empty)
             .RuleFor(u => u.UserId, f => 0)
@@ -108,10 +110,46 @@ public class FakeData
             .RuleFor(u => u.LastName, f => f.Name.LastName())
             .RuleFor(u => u.Email, f => f.Person.Email);
 
-        Users = fakeUsers.Generate(count);
-        
-  
-        // Exercises
+        Users = newUsers.Generate(count);
+
+        var cardioIndex = 0;
+        var newCardioExercises = new List<Exercise>
+        {
+            new()
+            {
+                ExerciseId = 0,
+                Type = ExerciseTypeEnum.Repetitions,
+                Repetitions = 10,
+                Name = "Squat",
+                MuscleGroups = new List<MuscleEnum>
+                {
+                    MuscleEnum.Calves, MuscleEnum.Quadriceps, MuscleEnum.Hamstrings, MuscleEnum.Gluteus, MuscleEnum.Loin, MuscleEnum.Abdominals
+                    
+                },
+                Description = "Stand with your feet about shoulder wide apart." +
+                              " Initiate the movement by sending your hips back as if you're sitting back into an invisible chair. " +
+                              "Bends knees to lower down as as far as possible with chest lifted in a controlled movement. Keep lower back neutral.",
+                Contributor = newUsers.Generate(),
+                ImageLink = "https://www.spotebi.com/wp-content/uploads/2014/10/squat-exercise-illustration.jpg",
+                VideoLink = "https://www.youtube.com/watch?v=ubdIGnX2Hfs"
+            },
+            new()
+            {
+                ExerciseId = 0,
+                Type = ExerciseTypeEnum.Repetitions,
+                Repetitions = 10,
+                Name = "Leg press",
+                MuscleGroups = new List<MuscleEnum>
+                {
+                    MuscleEnum.Calves, MuscleEnum.Quadriceps, MuscleEnum.Hamstrings, MuscleEnum.Gluteus
+                }
+                
+            }
+
+        };
+
+
+        /*// Exercises
         var cardioIndex = 0;
         var fakeCardioExercises = new Faker<Exercise>()
             .StrictMode(false)
@@ -167,12 +205,12 @@ public class FakeData
 
         var fakeWorkoutsList = fakeWorkouts.Generate(15);
 
-        /*var fakeGoals = new Faker<Goal>()
+        var fakeGoals = new Faker<Goal>()
             .StrictMode(false)
             .RuleFor(g => g.GoalId, f => 0)
             .RuleFor(g => g.StartingDate, f => f.Date.PastDateOnly(1, constantDateOnly))
             .RuleFor(g => g.EndDate, f => f.Date.FutureDateOnly(1, constantDateOnly))
-            .RuleFor(g => g.CompletedWorkouts, f => fakeCompletedWorkouts.Generate(2));*/
+            .RuleFor(g => g.CompletedWorkouts, f => fakeCompletedWorkouts.Generate(2));
         
         var fakePrograms = new Faker<Models.Domain.Program>()
             .StrictMode(false)
@@ -188,7 +226,7 @@ public class FakeData
         
         
         
-        /*var fakeProfiles = new Faker<Profile>()
+        var fakeProfiles = new Faker<Profile>()
             .StrictMode(false)
             .RuleFor(p => p.ProfileId, f => 0)
             .RuleFor(p => p.User, f => f.PickRandom(Users))
@@ -196,10 +234,10 @@ public class FakeData
             .RuleFor(p => p.Disabilities, f => f.Lorem.Sentence())
             .RuleFor(p => p.MedicalConditions, f => f.Lorem.Sentence())
             .RuleFor(p => p.Height, f => f.Random.Double(0.1, 0.2) * 1000) // Height between 100-200 cm
-            .RuleFor(p => p.Weight, f => f.Random.Double(0.05, 0.15) * 1000); // Weight between 50-150 kg*/
+            .RuleFor(p => p.Weight, f => f.Random.Double(0.05, 0.15) * 1000); // Weight between 50-150 kg
 
 
         
-        Programs = fakePrograms.Generate(count);
+        Programs = fakePrograms.Generate(count);*/
     }
 }
