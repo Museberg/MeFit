@@ -30,7 +30,7 @@ namespace Infrastructure.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GoalReadDTO>> GetGoal(int id)
         {
-            var goal = await _context.Goals.FindAsync(id);
+            var goal = await _context.Goals.Include(g => g.Program).ThenInclude(p => p.Workouts).FirstOrDefaultAsync(g => g.GoalId == id);
 
             if (goal == null)
             {
