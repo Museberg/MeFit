@@ -25,7 +25,7 @@ public class FakeData
             .RuleFor(u => u.UserId, f => 0)
             .RuleFor(u => u.FirstName, f => f.Name.FirstName())
             .RuleFor(u => u.LastName, f => f.Name.LastName())
-            .RuleFor(u => u.Email, f => f.Person.Email);
+            .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName));
 
         var users = newUsers.Generate(50);
 
