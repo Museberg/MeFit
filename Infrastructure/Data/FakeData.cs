@@ -319,10 +319,6 @@ public class FakeData
 
         Programs = newPrograms;
 
-
-
-
-
         /*var fakeGoals = new Faker<Goal>()
             .StrictMode(false)
             .RuleFor(g => g.GoalId, f => 0)

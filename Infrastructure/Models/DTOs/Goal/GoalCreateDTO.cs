@@ -16,6 +16,7 @@ namespace Infrastructure.Models.DTOs.Goal
         public string EndDate { get; set; }
 
         public int ProfileId { get; set; }
+        public int ProgramId { get; set; }
 
         public ICollection<CompletedWorkout> CompletedWorkouts { get; set; }
     }

@@ -22,6 +22,8 @@ namespace Infrastructure.Profiles
                     .MapFrom(src => DateOnly.ParseExact(src.EndDate, format)))
                 .ForMember(dest => dest.Profile, opt => opt
                     .MapFrom(src => new Profile{ProfileId = src.ProfileId}))
+                .ForMember(dest => dest.Program, opt => opt
+                    .MapFrom(src => new Models.Domain.Program{ProgramId = src.ProgramId}))
                 .ForMember(dest => dest.CompletedWorkouts, opt => opt
                     .MapFrom(src => new List<CompletedWorkout>()))
                 .ForMember(dest => dest.Program, opt => opt
