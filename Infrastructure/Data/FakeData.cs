@@ -27,6 +27,8 @@ public class FakeData
             .RuleFor(u => u.LastName, f => f.Name.LastName())
             .RuleFor(u => u.Email, f => f.Person.Email);
 
+        var users = newUsers.Generate(50);
+
         var newRepExercises = new List<Exercise>
         {
             new()
@@ -43,7 +45,7 @@ public class FakeData
                 Description = "Stand with your feet about shoulder wide apart." +
                               " Initiate the movement by sending your hips back as if you're sitting back into an invisible chair. " +
                               "Bends knees to lower down as as far as possible with chest lifted in a controlled movement. Keep lower back neutral.",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink = "https://www.spotebi.com/wp-content/uploads/2014/10/squat-exercise-illustration.jpg",
                 VideoLink = "https://www.youtube.com/watch?v=ubdIGnX2Hfs"
             },
@@ -59,7 +61,7 @@ public class FakeData
                 },
                 Description = "Your bottom should be flat against the seat rather than raised. Your legs should form an angle of about 90 degrees at the knees. " +
                               "Now push! (your legs)",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink = "https://www.evolutionofbodybuilding.net/wp-content/uploads/2020/01/big-ramy-1700lbs-leg-press-arnold-classic-2020.jpg",
                 VideoLink = "https://www.youtube.com/watch?v=s9-zeWzPUmA"
             },
@@ -76,7 +78,7 @@ public class FakeData
                 Description = "Bend the knees and lower your body until the back knee is a few inches from the floor. " +
                               "At the bottom of the movement, the front thigh is parallel to the ground, " +
                               "the back knee points towards the floor, and your weight is evenly distributed between both legs.",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink = "https://www.spotebi.com/wp-content/uploads/2016/09/front-and-back-lunges-exercise-illustration-spotebi.jpg",
                 VideoLink = "https://www.youtube.com/watch?v=AvBrsGNA7V8"
             },
@@ -93,7 +95,7 @@ public class FakeData
                 Description = "Standing with your feet shoulder-wide apart, grasp the bar with your hands just outside your legs. " +
                               "Lift the bar by driving your hips forwards, keep a flat back. Lower the bar under control " +
                               "- though once you get to really heavy weights, it's okay to drop it on your final rep.",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink = "https://content.artofmanliness.com/uploads/2012/12/Deadlifts-1.jpg",
                 VideoLink = "https://www.youtube.com/watch?v=op9kVnSso6Q"
             },
@@ -109,7 +111,7 @@ public class FakeData
                 },
                 Description = "Lie flat on your back on a bench and grip the bar with your hands just wider than shoulder-wide apart. " +
                               "Bring the bar slowly down to your chest as your breathe in. Push up as you breathe out. Now repeat 10 times",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink = "https://www.muscleandfitness.com/wp-content/uploads/2020/07/Young-Arnold-Schwarzenegger-Working-Out-His-Chest-And-Arms-In-Venice-Beach.jpg?quality=86&strip=all",
                 VideoLink = "https://www.youtube.com/watch?v=4cO1KHAsHxo"
             },
@@ -127,7 +129,7 @@ public class FakeData
                               "Hold the dumbbells directly above your chest, palms facing each other, then lower the weights in an arc out to the sides as far as is comfortable. " +
                               "Use your pectoral muscles to reverse the movement back to the start. " +
                               "Keep a slight bend in your elbows throughout and don’t arch your back.",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink = "https://www.muscleandfitness.com/wp-content/uploads/2015/01/arnold-schwarzenegger-chest-workout.jpg?quality=86&strip=all",
                 VideoLink = "https://www.youtube.com/watch?v=gyftXjBH9sc"
             },
@@ -144,7 +146,7 @@ public class FakeData
                 Description = "Contract your abs and tighten your core by pulling your belly button toward your spine. " +
                               "Inhale as you slowly bend your elbows and lower yourself to the floor until your elbows are at a 90-degree angle. " +
                               "Exhale while contracting your chest muscles and pushing back up through your hands, returning to the start position",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink = "https://static.boredpanda.com/blog/wp-content/uploads/2020/03/arnold-schwarzenegger-home-workout-routine-2-5e7b3c41414db__700.jpg",
                 VideoLink = "https://www.youtube.com/shorts/vgBZOigc4ko"
             },
@@ -161,7 +163,7 @@ public class FakeData
                 Description = "Grasp the bar with a wide grip with an overhand, knuckles up grip. " +
                               "Pull the bar down till chin-level while you are exhaling." +
                               "Inhale while letting the bar move up in one smooth and controlled motion",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink = "https://i.ytimg.com/vi/fum5h7wOHfI/maxresdefault.jpg",
                 VideoLink = "https://www.youtube.com/shorts/zk8Fjr0mDgs"
             },
@@ -180,7 +182,7 @@ public class FakeData
                               " and then begin the movement by driving the elbows behind the body while retracting the shoulder blades. " +
                               "Pull the dumbbells your body until the elbows are at (or just past) the midline and then slowly lower the dumbbells " +
                               "back to the starting position under control.",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink = "https://bod-blog-assets.prod.cd.beachbodyondemand.com/bod-blog/wp-content/uploads/2022/07/14134844/rear-delt-exercises-600-bent-over-row.jpg",
                 VideoLink = "https://www.youtube.com/watch?v=6TSP1TRMUzs"
             }
@@ -203,7 +205,7 @@ public class FakeData
                     "Step the feet back until the legs are fully extended. Bring the feet together, toes pointed toward the floor." +
                     "Using the midsection as momentum, keep forearms and elbows planted into the ground while lifting the torso, stomach and legs off of the floor. Keep the head in line with the spine and hips while squeezing the glutes, hamstrings, and quadriceps and pushing the heels toward the back of the room. Gaze gently ahead toward the fingertips."
                     + "Resisting any movement, hold position for desired timeframe, depending on comfort and strength level. Release, bringing the torso, stomach and legs back gently down to the floor.",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink =
                     "https://chicagohealthonline.com/wp-content/uploads/2020/06/premium-health-planking-20200610-1170x700.jpg.webp",
                 VideoLink = "https://youtu.be/ql8qf61rCDo",
@@ -219,7 +221,7 @@ public class FakeData
                     MuscleEnum.Calves, MuscleEnum.Quadriceps, MuscleEnum.Hamstrings
                 },
                 Description = "Dance however you want!",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink =
                     "https://global-uploads.webflow.com/5e2b8863ba7fff8df8949888/6130d37e6447aaa022e4e3b8_how-to-start-dancing-ITD-thumb.jpg",
                 VideoLink = "https://youtu.be/TIfAkOBMf5A"
@@ -239,7 +241,7 @@ public class FakeData
                 },
                 Description =
                     "A swimming stroke executed in a prone position by coordinating a kick in which the legs are brought forward with the knees together and the feet are turned outward and whipped back with a glide and a backward sweeping movement of the arms",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink =
                     "https://i.guim.co.uk/img/media/8fd5916a28cf4fc3a54f0ff9756c50ea797811ba/0_187_5616_3370/master/5616.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=c262b782fde8e203945c21e23245aa8c",
                 VideoLink = "https://youtu.be/EElzlIMjk_c"
@@ -255,7 +257,7 @@ public class FakeData
                     MuscleEnum.Abdominals, MuscleEnum.Forearms
                 },
                 Description = "You know how to ride a bike.",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink =
                     "https://images.immediate.co.uk/production/volatile/sites/21/2022/05/Cube-Axial-WS-12-45369da.jpg?quality=45&resize=768,574",
                 VideoLink = "https://youtu.be/4ssLDk1eX9w"
@@ -271,7 +273,7 @@ public class FakeData
                     MuscleEnum.Quadriceps, MuscleEnum.Gluteus, MuscleEnum.Hamstrings, MuscleEnum.Abdominals
                 },
                 Description = "Jogging is another work for running.",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 ImageLink =
                     "https://static.nike.com/a/images/f_auto,cs_srgb/w_1536,c_limit/30801422-1e6d-4a28-bf6e-1bdc6c9bd3f5/7-muscle-groups-you-activate-when-running.jpg",
                 VideoLink = "https://youtu.be/PvbhZKxAzPI"
@@ -312,7 +314,7 @@ public class FakeData
                 ProgramId = 0,
                 Name = "Fully body workout",
                 Description = "This program contains workout for both upper body and legs",
-                Contributor = newUsers.Generate(),
+                Contributor = users[Random.Next(users.Count)],
                 Workouts = newWorkouts
             }
         };
