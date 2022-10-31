@@ -30,7 +30,7 @@ namespace Infrastructure.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GoalReadDTO>> GetGoal(int id)
         {
-            var goal = await _context.Goals.FindAsync(id);
+            var goal = await _context.Goals.Include(g => g.Program).ThenInclude(p => p.Workouts).FirstOrDefaultAsync(g => g.GoalId == id);
 
             if (goal == null)
             {
@@ -107,7 +107,7 @@ namespace Infrastructure.Controllers
         }
 
         [HttpPut("{id}/program")]
-        public async Task<IActionResult> AddWorkouts(int id, [FromBody] List<int> programId)
+        public async Task<IActionResult> AddWorkouts(int id, [FromBody] int programId)
         {
             Goal? goal = await _context.Goals.Include(t => t.Program).FirstOrDefaultAsync(s => s.GoalId == id);
 
@@ -123,9 +123,11 @@ namespace Infrastructure.Controllers
                 return BadRequest();
             }
 
+            goal.Program = program;
+
             try
             {
-                _context.Entry(program).State = EntityState.Modified;
+                _context.Entry(goal).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch
