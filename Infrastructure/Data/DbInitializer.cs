@@ -11,10 +11,10 @@ public class DbInitializer
 
         if (context.Profiles.Count() < programsToFake / 3)
         {
-            FakeData.Init(programsToFake);
-            context.Programs.AddRange(FakeData.Programs);
-            
-            context.SaveChanges();
+            // FakeData.Init(programsToFake);
+            // context.Programs.AddRange(FakeData.Programs);
+            //
+            // context.SaveChanges();
         }
         
         
